@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public abstract class Profissional extends Pessoa {
 
-	private String CRM;
-	private final int cargaMaxima;
+	protected String CRM;
+	protected final int cargaMaxima;
+	protected ArrayList<Atendimento> atendimento = new ArrayList<>();
 	
 	public Profissional(String nome, Data dataNascimento, String CRM) {
 		super(nome, dataNascimento);
@@ -14,14 +15,34 @@ public abstract class Profissional extends Pessoa {
 		}
 	}
 
-	public abstract boolean adicionarConsulta(Consulta consulta);
+	public abstract boolean adicionarAtendimento(Atendimento novoAtendimento);
 	
-	public abstract boolean estaDisponivel(Consulta consulta) {
+	public abstract boolean estaDisponivel(Atendimento novoAtendimento);
 
 	public abstract boolean ehQualificado(Paciente paciente);
 
+	public abstract boolean realizarAtendimento(boolean modificador);
+
 	public void obterIdentificacao() {
 		System.out.printf("%s, CRM: %s, Especialidade: %s\n", this.obterDados(), this.CRM, this.especialidade);
+	}
+
+	public boolean estaAtendendo() {
+		for (Atendimento atendimento : atendimentos) {
+			if (atendimento.emAndamento()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected Atendimento atendimentoAFinalizar() {
+		for (Atendimento atendimento : atendimentos) {
+			if (atendimento.emAndamento()) {
+				return atendimento;
+			}
+		}
+		return null;
 	}
 
 	@Override

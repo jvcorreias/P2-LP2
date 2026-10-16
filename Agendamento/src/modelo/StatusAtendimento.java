@@ -2,6 +2,7 @@ package modelo;
 
 public enum StatusAtendimento implements Comparable<StatusAtendimento> {
 	PENDENTE("Pendente"),
+	EM_ANDAMENTO("Em Andamento"),
 	REALIZADA("Realizada"),
 	CANCELADA("Cancelada");
 

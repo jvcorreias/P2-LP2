@@ -5,63 +5,52 @@ import java.util.ArrayList;
 
 public class Paciente extends Pessoa implements Priorizavel{
 
-	private ArrayList<Consulta> consultas = new ArrayList<>();
+	private ArrayList<Atendimento> atendimentos = new ArrayList<>();
 	private Triagem ultimaTriagem;
 	
 	public Paciente(String nome, Data dataNascimento) {
 		super(nome, dataNascimento);
 	}
 
-	public boolean adicionarConsulta(Consulta consulta) {
-		if (consulta != null && !consultas.contains(consulta)) {
-			consultas.add(consulta);
-			Collections.sort(consultas);
+	public boolean adicionarAtendimento(Atendimento novoAtendimento) {
+		if (novoAtendimento != null && !atendimentos.contains(novoAtendimento)) {
+			atendimentos.add(atendimento);
+			Collections.sort(atendimentos);
 			return true;
 		}
 		return false;
 	}
 
 	public boolean agendarConsulta(Hospital hospital, Data data) {
-		return hospital.gerarConsulta(this, especialidade, data);
+		return hospital.gerarConsulta(this, data);
 	}
 
-	public boolean cancelarConsulta(int id) {
-		if (1 <= id && id <= consultas.size()) {
-			Consulta alvo = consultas.get(id-1);
+	public boolean cancelarAtendimento(int id) {
+		if (1 <= id && id <= atendimento.size()) {
+			Atendimento alvo = atendimentos.get(id-1);
 			if (alvo.possivel()) {
 				alvo.cancelar();
 			}
-			consultas.remove(alvo);
+			atendimentos.remove(alvo);
+			Collections.sort(atendimentos);
 			return true;
 		}
 		return false;
 	}
 
-	private Consulta proximaConsulta() {
-		if (consultas.size() > 0 && consultas.get(0).possivel()) {
-			return consultas.get(0);
+	private Atendimento proximoAtendimento() {
+		if (atendimentos.size() > 0 && atendimentos.get(0).possivel()) {
+			return atendimentos.get(0);
 		}
 		return null;
 	}
 
-	public boolean irAProximaConsulta() {
-		if (proximaConsulta() != null) {
-			return proximaConsulta().realizar();
-		}
-		return false;
-	}
-	public boolean irAConsulta(int id) {
-		if (id <= 0 || consultas.size() <= id) return false;
-
-		for (int i = 1; i < id; i++) {
-			cancelarConsulta(i-1);
-		}
-
-		Consulta alvo = consultas.get(id-1);
-		if (alvo != null && alvo.possivel()) {
-			alvo.realizar();
-			Collections.sort(consultas);
-			return true;
+	public boolean iniciarProximoAtendimento() {
+		if (proximoAtendimento() != null) {
+			if(proximoAtendimento().iniciar()) {
+				Collections.sort(atendimentos);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -70,11 +59,11 @@ public class Paciente extends Pessoa implements Priorizavel{
 		ultimaTriagem = new Triagem(this, sintomasPreocupantes, classificacao);
 	}
 
-	public void exibirConsultas() {
-		System.out.println("Consultas:");
-		for (int i = 0; i < consultas.size(); i++) {
+	public void exibirAtendimentos() {
+		System.out.println("Atendimentos:");
+		for (int i = 0; i < atendimentos.size(); i++) {
 			System.out.print("\t" + (i+1) + ". ");
-			System.out.println(consultas.get(i));
+			System.out.println(atendimentos.get(i));
 		}
 	}
 
@@ -89,7 +78,7 @@ public class Paciente extends Pessoa implements Priorizavel{
 		}
 		return pontosIdade;
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString();

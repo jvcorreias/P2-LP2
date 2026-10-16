@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Geriatra extends Profissional implements Cirurgiao {
+public final class Geriatra extends Profissional implements Cirurgiao {
 	private final int cargaMaxima = 10;
 
 	public Geriatra(String nome, Data dataNascimento, String CRM) {
@@ -20,11 +20,11 @@ public class Geriatra extends Profissional implements Cirurgiao {
 
 	@Override
 	public boolean estaDisponivel(Atendimento novoAtendimento) {
-		int cargaDia = novoAtendimento.carga();
+		int cargaDia = novoAtendimento.getCarga();
 
 		for (Atendimento atendimento : atendimentos) {
 			if (atendimento.temMesmaData(novoAtendimento)) {
-				atendimentosDia += atendimento.carga();
+				atendimentosDia += atendimento.getCarga();
 			}
 		}
 
@@ -40,20 +40,32 @@ public class Geriatra extends Profissional implements Cirurgiao {
 	}
 
 	@Override
+	public boolean realizarAtendimento(Veredito veredito) {
+		Atendimento alvo = atendimentoAFinalizar();
+
+		if (alvo != null) {
+			return alvo.finalizar(veredito);
+		}
+
+		return false;
+	}
+
+	@Override
 	public boolean realizarCirurgia(Cirurgia cirurgia) {
 		if (cirurgia != null && atendimentos.contains(cirurgia)) {
-			cirurgia.realizar();
+			cirurgia.finalizar();
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public boolean realizarConsulta(Consulta consulta, boolean escalar) {
+	public boolean realizarConsulta(boolean escalar) {
 		if (consulta == null || !atendimentos.contains(consulta)) return false;
 		consulta.realizar();
 		if (escalar) {
 			consulta.marcarCirurgia();
 		}
+		return true;
 	}
 }

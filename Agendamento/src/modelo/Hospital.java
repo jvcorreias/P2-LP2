@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 public class Hospital {
 	private String identificador;
+
 	private ArrayList<Paciente> pacientes = new ArrayList<>();
-	private ArrayList<Medico> medicos = new ArrayList<>();
+	private ArrayList<Profissional> profissionais = new ArrayList<>();
+
 
 	public Hospital(String identificador) {
 		if (identificador != null && !identificador.isBlank()) {
 			this.identificador = identificador;
 		}
 	}
+
 
 	public boolean cadastrarPaciente(Paciente paciente) {
 		if (paciente != null && !pacientes.contains(paciente)) {
@@ -28,9 +31,9 @@ public class Hospital {
 		return null;
 	}
 
-	public boolean cadastrarMedico(Medico medico) {
-		if (medico != null && !medicos.contains(medico)) {
-			medicos.add(medico);
+	public boolean cadastrarProfissional(Profissional profissional) {
+		if (profissional != null && !profissionais.contains(profissional)) {
+			profissionais.add(profissional);
 			return true;
 		}
 		return false;
@@ -39,11 +42,11 @@ public class Hospital {
 	public boolean gerarConsulta(Paciente paciente, Data data) {
 		if (paciente == null || data == null) return false;
 
-		for (Medico medico : medicos) {
-			if (medico.estaDisponivel(data) && medico.ehQualificado(paciente)) {
-				Consulta novaConsulta = new Consulta(paciente, medico, data);
+		for (Profissional profissional : profissionais) {
+			if (profissional.estaDisponivel(data) && profissional.ehQualificado(paciente)) {
+				Consulta novaConsulta = new Consulta(paciente, profissional, data);
 				if (paciente.adicionarConsulta(novaConsulta)) {
-					medico.adicionarConsulta(novaConsulta);
+					profissional.adicionarConsulta(novaConsulta);
 					return true;
 				}
 			}

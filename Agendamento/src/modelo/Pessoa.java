@@ -2,8 +2,8 @@ package modelo;
 
 public abstract class Pessoa {
 
-	private String nome;
-	private Data dataNascimento;
+	protected String nome;
+	protected Data dataNascimento;
 
 	public Pessoa(String nome, Data dataNascimento) {
 		if (nome != null && !nome.isBlank()) {
