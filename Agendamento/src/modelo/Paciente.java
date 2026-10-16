@@ -3,7 +3,7 @@ package modelo;
 import java.util.Collections;
 import java.util.ArrayList;
 
-public class Paciente extends Pessoa {
+public class Paciente extends Pessoa implements Priorizavel{
 
 	private ArrayList<Consulta> consultas = new ArrayList<>();
 	private Triagem ultimaTriagem;
@@ -76,6 +76,18 @@ public class Paciente extends Pessoa {
 		}
 	}
 
+	@Override
+	public int calcularPrioridade(){
+		int pontosIdade = 0;
+
+		if(this.idade >= 60){
+			pontosIdade += 5;
+		} else if(this.idade <= 12){
+			pontosIdade += 5;
+		}
+		return pontosIdade;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString();
