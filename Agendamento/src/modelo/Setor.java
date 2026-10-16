@@ -3,12 +3,12 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Setor {
+class Setor {
 
 	private final Especialidade especialidade;
 	private ArrayList<Medico> medicos = new ArrayList<>();
 
-	public Setor(Especialidade especialidade) {
+	Setor(Especialidade especialidade) {
 		if (especialidade != null) {
 			this.especialidade = especialidade;
 		}
@@ -17,14 +17,14 @@ public class Setor {
 		}
 	}
 
-	public boolean medicoValido(Medico medico) {
+	boolean medicoValido(Medico medico) {
 		if (medico != null) {
 			return medico.ehQualificado(especialidade);
 		}
 		return false;
 	}
 	
-	public boolean adicionarMedico(Medico medico) {
+	boolean adicionarMedico(Medico medico) {
 		if(medico != null && medicoValido(medico) && !medicos.contains(medico)) {
 			medicos.add(medico);
 			System.out.println("Medico Adicionado");
@@ -33,7 +33,7 @@ public class Setor {
 		return false;
 	}
 
-	public boolean removerMedico(Medico medico) {
+	boolean removerMedico(Medico medico) {
 		if(medicos.remove(medico)) {
 			System.out.println("Medico Removido");
 			return true;
@@ -41,11 +41,11 @@ public class Setor {
 		return false;
 	}
 	
-	public boolean atendeEspecialidade(Especialidade especialidade) {
+	boolean atendeEspecialidade(Especialidade especialidade) {
 		return this.especialidade.equals(especialidade);
 	}
 	
-	public Medico obterMedicoDisponivel(Data data) {
+	Medico obterMedicoDisponivel(Data data) {
 		if (data == null) return null;
 
 		for(Medico medico: medicos) {
