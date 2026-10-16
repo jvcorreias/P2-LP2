@@ -1,6 +1,5 @@
 package modelo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 class Setor {
