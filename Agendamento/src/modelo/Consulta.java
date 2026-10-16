@@ -11,7 +11,7 @@ public class Consulta implements Comparable<Consulta> {
 		if (paciente != null) {
 			this.paciente = paciente;
 		}
-		if (medico != null)) {
+		if (medico != null) {
 			this.medico = medico;
 		}
 		if (data != null && Data.agora().compareTo(data) < 1) {
