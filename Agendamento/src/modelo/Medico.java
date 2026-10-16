@@ -30,7 +30,7 @@ public class Medico extends Pessoa {
 	public boolean estaDisponivel(Data data) {
 		int consultasDia = 0;	
 		for(Consulta consulta : consultas) {
-			if(consulta.possivel() && consulta.temMesmaData(data)) {
+			if(!consulta.cancelada() && consulta.temMesmaData(data)) {
 				consultasDia++;
 			}
 		}

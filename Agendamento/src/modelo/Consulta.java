@@ -43,6 +43,10 @@ public class Consulta implements Comparable<Consulta> {
 		return status.equals(StatusConsulta.PENDENTE);
 	}
 
+	public boolean cancelada() {
+		return status.equals(StatusConsulta.CANCELADA);
+	}
+
 	@Override
 	public String toString() {
 		return status + ", Paciente: " + paciente + ", Médico: " + medico + ", Data: " + data;
