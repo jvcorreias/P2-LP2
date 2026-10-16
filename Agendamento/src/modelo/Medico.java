@@ -1,41 +1,52 @@
 package modelo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Medico extends Pessoa{
+public class Medico extends Pessoa {
 
 	private String CRM;
 	private Especialidade especialidade;
-	private ArrayList<Consulta> consultas;
+	private ArrayList<Consulta> consultas = new ArrayList<>();
 	
 	
-	public Medico(String nome, LocalDate dataNascimento, String cRM, Especialidade especialidade, ArrayList<Consulta> consultas) {
+	public Medico(String nome, Data dataNascimento, String CRM, Especialidade especialidade) {
 		super(nome, dataNascimento);
-		if(cRM != null && especialidade != null && consultas != null) {
-			CRM = cRM;
+		if(CRM != null && !CRM.isBlank()) {
+			this.CRM = CRM;
+		}
+		if (especialidade != null) {
 			this.especialidade = especialidade;
-			this.consultas = consultas;
-	}
+		}
 	}
 
-	public void adicionarConsulta(Consulta c) {
-		
+	public boolean adicionarConsulta(Consulta consulta) {
+		if (consulta != null && !consultas.contains(consulta)) {
+			consultas.add(consulta);
+			return true;
+		}
+		return false;
 	}
 	
-	public boolean estaDisponivel(LocalDate dia) {
+	public boolean estaDisponivel(Data data) {
 		int consultasDia = 0;	
-		for(Consulta consAtual : consultas) {
-				if(consAtual.temMesmaData(dia)) {
-					consultasDia++;
+		for(Consulta consulta : consultas) {
+			if(consulta.temMesmaData(data)) {
+				consultasDia++;
 			}
 		}
-		return consultasDia<=15;
+		return consultasDia <= 15;
+	}
+
+	public boolean ehQualificado(Especialidade especialidade) {
+		return this.especialidade.equals(especialidade);
 	}
 
 	public void obterIdentificacao() {
 		System.out.printf("%s, CRM: %s, Especialidade: %s\n", this.obterDados(), this.CRM, this.especialidade);
 	}
 	
-	
+	@Override
+	public String toString() {
+		return super.toString() + " - CRM: " + CRM + " - especialidade: " + especialidade;
+	}
 }

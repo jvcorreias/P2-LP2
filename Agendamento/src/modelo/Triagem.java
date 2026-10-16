@@ -4,34 +4,21 @@ public class Triagem implements Priorizavel{
 
 	private Paciente paciente;
 	private int sintomasPreocupantes;
-	private EstadoSaude estado;
+	private ClassificacaoRisco classificacao;
 	
-	
-	
-	
-	public Triagem(Paciente paciente, int sintomasPreocupantes, EstadoSaude estado) {
-		if(paciente!=null && sintomasPreocupantes>=0 && estado != null) {
+	public Triagem(Paciente paciente, int sintomasPreocupantes, ClassificacaoRisco classificacao) {
+		if (paciente != null) {
 			this.paciente = paciente;
+		}
+		if (sintomasPreocupantes >= 0) {
 			this.sintomasPreocupantes = sintomasPreocupantes;
-			this.estado = estado;
+		}
+		if (classificacao != null) {
+			this.classificacao = classificacao;
 		}
 	}
-
-
-
 
 	public int calcularPrioridade() {
-		int e;
-		if(estado == estado.GRAVE) {
-			e = 5;
-		}else if(estado == estado.MODERADO) {
-			e = 2;
-		}else {
-			e = 0;
-		}
-		
-		return e + sintomasPreocupantes;
+		return classificacao.getPrioridade() + sintomasPreocupantes;
 	}
-	
-	
 }

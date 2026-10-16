@@ -1,15 +1,15 @@
 package modelo;
 
-import java.time.LocalDate;
-
 public abstract class Pessoa {
 
 	private String nome;
-	private LocalDate dataNascimento;
+	private Data dataNascimento;
 
-	public Pessoa(String nome, LocalDate dataNascimento) {
-		if(nome != null && dataNascimento != null) {
+	public Pessoa(String nome, Data dataNascimento) {
+		if (nome != null && !nome.isBlank()) {
 			this.nome = nome;
+		}
+		if (dataNascimento != null && Data.agora().compareTo(dataNascimento) >= 0) {
 			this.dataNascimento = dataNascimento;
 		}
 	}
@@ -19,7 +19,8 @@ public abstract class Pessoa {
 		return "Nome: " + this.nome + ", Data de Nascimento: " + this.dataNascimento;
 	}
 
-	public abstract void obterIdentificacao();
-	
-	
+	@Override
+	public String toString() {
+		return nome + " - " + dataNascimento;
+	}
 }
