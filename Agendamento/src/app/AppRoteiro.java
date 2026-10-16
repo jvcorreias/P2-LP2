@@ -7,6 +7,7 @@ public class AppRoteiro {
 		Hospital posto = new Hospital("Posto de Saúde");
 		Medico medico1 = new Medico("Sérgio", new Data(12, 11, 1990), "12414-2", Especialidade.valueOf("PEDIATRIA"));
 		Paciente paciente1 = new Paciente("Lorena", new Data(18, 8, 2015));
+		Paciente paciente2 = new Paciente("Mauro", new Data(30, 11, 1997));
 
 		System.out.println(posto);
 		System.out.println(medico1);
@@ -43,5 +44,43 @@ public class AppRoteiro {
 		}
 
 		paciente1.exibirConsultas();
+		
+		if(paciente1.agendarConsulta(posto, Especialidade.PEDIATRIA, new Data(29, 12, 2026))) {
+			System.out.println("Sucesso ao agendar consulta!");
+			paciente1.exibirConsultas();
+		}
+		else {
+			System.out.println("Falha ao agendar consulta!");
+		}
+		if(paciente2.agendarConsulta(posto, Especialidade.PEDIATRIA, new Data(29, 12, 2026))) {
+			System.out.println("Sucesso ao agendar consulta!");
+			paciente2.exibirConsultas();
+		}
+		else {
+			System.out.println("Falha ao agendar consulta!");
+		}
+
+		if(paciente1.agendarConsulta(posto, Especialidade.PEDIATRIA, new Data(29, 12, 2027))) {
+			System.out.println("Sucesso ao agendar consulta!");
+			paciente1.exibirConsultas();
+		}
+		else {
+			System.out.println("Falha ao agendar consulta!");
+		}
+		if(paciente2.agendarConsulta(posto, Especialidade.PEDIATRIA, new Data(29, 12, 2027))) {
+			System.out.println("Sucesso ao agendar consulta!");
+			paciente2.exibirConsultas();
+		}
+		else {
+			System.out.println("Falha ao agendar consulta!");
+		}
+
+		if(paciente2.agendarConsulta(posto, Especialidade.ORTOPEDIA, new Data(29, 12, 2027))) {
+			System.out.println("Sucesso ao agendar consulta!");
+			paciente1.exibirConsultas();
+		}
+		else {
+			System.out.println("Falha ao agendar consulta!");
+		}
 	}
 }
