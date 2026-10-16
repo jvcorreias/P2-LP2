@@ -23,7 +23,9 @@ public class Hospital {
 	public Consulta gerarConsulta(Paciente paciente, Especialidade especialidade, Data data) {
 		for (Medico medico : medicos) {
 			if (medico.ehQualificado(especialidade) && medico.estaDisponivel(data)) {
-				return new Consulta(paciente, medico, data);
+				Consulta novaConsulta = new Consulta(paciente, medico, data);
+				medico.adicionarConsulta(novaConsulta);
+				return novaConsulta;
 			}
 		}
 		return null;
