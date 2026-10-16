@@ -19,6 +19,6 @@ public class Triagem implements Priorizavel{
 	}
 
 	public int calcularPrioridade() {
-		return classificacao.getPrioridade() + sintomasPreocupantes;
+		return classificacao.getPrioridade() + sintomasPreocupantes + paciente.calcularPrioridade();
 	}
 }
