@@ -1,5 +1,5 @@
 package modelo;
 
-public interface Priorizavel {
-	int calcularPrioridade();
+public interface Imprimivel {
+	String gerarFichaParaImpressao();
 }
