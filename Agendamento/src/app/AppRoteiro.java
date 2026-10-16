@@ -5,6 +5,7 @@ import modelo.*;
 public class AppRoteiro {
 	public static void main(String [] args) {
 		Hospital posto = new Hospital("Posto de Saúde");
+		posto.criarSetor(Especialidade.PEDIATRIA);
 		Medico medico1 = new Medico("Sérgio", new Data(12, 11, 1990), "12414-2", Especialidade.valueOf("PEDIATRIA"));
 		Paciente paciente1 = new Paciente("Lorena", new Data(18, 8, 2015));
 		Paciente paciente2 = new Paciente("Mauro", new Data(30, 11, 1997));

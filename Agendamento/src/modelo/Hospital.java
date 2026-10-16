@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Hospital {
 	private String identificador;
-	private ArrayList<Medico> medicos = new ArrayList<>();
+	private ArrayList<Setor> setores = new ArrayList<>();
 
 	public Hospital(String identificador) {
 		if (identificador != null && !identificador.isBlank()) {
@@ -13,20 +13,48 @@ public class Hospital {
 	}
 
 	public boolean cadastrarMedico(Medico medico) {
-		if (medico != null && !medicos.contains(medico)) {
-			medicos.add(medico);
-			return true;
+		for (Setor setor : setores) {
+			if (setor.medicoValido(medico)) {
+				return setor.adicionarMedico(medico);
+			}
 		}
 		return false;
 	}
 
-	public Consulta gerarConsulta(Paciente paciente, Especialidade especialidade, Data data) {
-		for (Medico medico : medicos) {
-			if (medico.ehQualificado(especialidade) && medico.estaDisponivel(data)) {
-				Consulta novaConsulta = new Consulta(paciente, medico, data);
-				medico.adicionarConsulta(novaConsulta);
-				return novaConsulta;
+	private Setor obtemSetor(Especialidade especialidade) {
+		if (especialidade == null) return null;
+		for (Setor setor : setores) {
+			if (setor.atendeEspecialidade(especialidade)) {
+				return setor;
 			}
+		}
+		return null;
+	}
+
+	public boolean criarSetor(Especialidade especialidade) {
+		if (especialidade != null) {
+			Setor alvo = new Setor(especialidade);
+			if (!setores.contains(alvo)) {
+				setores.add(alvo);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean removerSetor(Especialidade especialidade) {
+		return setores.remove(obtemSetor(especialidade));
+	}
+
+	public Consulta gerarConsulta(Paciente paciente, Especialidade especialidade, Data data) {
+		Setor setor = obtemSetor(especialidade);
+		if (setor == null) return null;
+
+		Medico medico = obtemSetor(especialidade).obterMedicoDisponivel(data);
+		if (medico != null) {
+			Consulta novaConsulta = new Consulta(paciente, medico, data);
+			medico.adicionarConsulta(novaConsulta);
+			return novaConsulta;
 		}
 		return null;
 	}

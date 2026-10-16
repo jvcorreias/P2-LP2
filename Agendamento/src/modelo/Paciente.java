@@ -34,7 +34,10 @@ public class Paciente extends Pessoa {
 	}
 
 	private Consulta proximaConsulta() {
-		return consultas.get(0);
+		if (consultas.size() > 0 && consultas.get(0).possivel()) {
+			return consultas.get(0);
+		}
+		return null;
 	}
 
 	public boolean irAProximaConsulta() {

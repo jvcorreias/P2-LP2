@@ -5,35 +5,54 @@ import java.util.ArrayList;
 
 public class Setor {
 
-	private Especialidade especialidade;
-	private ArrayList<Medico> medicos;
+	private final Especialidade especialidade;
+	private ArrayList<Medico> medicos = new ArrayList<>();
+
+	public Setor(Especialidade especialidade) {
+		if (especialidade != null) {
+			this.especialidade = especialidade;
+		}
+		else {
+			this.especialidade = null;
+		}
+	}
+
+	public boolean medicoValido(Medico medico) {
+		if (medico != null) {
+			return medico.ehQualificado(especialidade);
+		}
+		return false;
+	}
 	
-	public void adicionarMedico(Medico m) {
-		if(!medicos.contains(m) && m!=null) {
-			medicos.add(m);
+	public boolean adicionarMedico(Medico medico) {
+		if(medico != null && medicoValido(medico) && !medicos.contains(medico)) {
+			medicos.add(medico);
 			System.out.println("Medico Adicionado");
+			return true;
 		}
+		return false;
 	}
-	public void removerMedico(Medico m) {
-		if(medicos.contains(m) && m!=null) {
-			medicos.remove(m);
+
+	public boolean removerMedico(Medico medico) {
+		if(medicos.remove(medico)) {
 			System.out.println("Medico Removido");
+			return true;
 		}
+		return false;
 	}
 	
-	public boolean atendeEspecialidade(Especialidade e) {
-		return this.especialidade == e;
+	public boolean atendeEspecialidade(Especialidade especialidade) {
+		return this.especialidade.equals(especialidade);
 	}
 	
-	public Medico obterMedicoDisponivel(LocalDate dia) {
-		for(Medico m: medicos) {
-			if(m.estaDisponivel(dia)) {
-				return m;
+	public Medico obterMedicoDisponivel(Data data) {
+		if (data == null) return null;
+
+		for(Medico medico: medicos) {
+			if(medico.estaDisponivel(data)) {
+				return medico;
 			}
 		}
 		return null;
 	}
-	
-	
-	
 }
