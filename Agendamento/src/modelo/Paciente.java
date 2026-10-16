@@ -12,8 +12,7 @@ public class Paciente extends Pessoa implements Priorizavel{
 		super(nome, dataNascimento);
 	}
 
-	public boolean agendarConsulta(Hospital hospital, Especialidade especialidade, Data data){
-		Consulta consulta = hospital.gerarConsulta(this, especialidade, data);
+	public boolean adicionarConsulta(Consulta consulta) {
 		if (consulta != null && !consultas.contains(consulta)) {
 			consultas.add(consulta);
 			Collections.sort(consultas);
@@ -21,6 +20,11 @@ public class Paciente extends Pessoa implements Priorizavel{
 		}
 		return false;
 	}
+
+	public boolean agendarConsulta(Hospital hospital, Data data) {
+		return hospital.gerarConsulta(this, especialidade, data);
+	}
+
 	public boolean cancelarConsulta(int id) {
 		if (1 <= id && id <= consultas.size()) {
 			Consulta alvo = consultas.get(id-1);
@@ -55,7 +59,9 @@ public class Paciente extends Pessoa implements Priorizavel{
 
 		Consulta alvo = consultas.get(id-1);
 		if (alvo != null && alvo.possivel()) {
-			return alvo.realizar();
+			alvo.realizar();
+			Collections.sort(consultas);
+			return true;
 		}
 		return false;
 	}
@@ -64,10 +70,6 @@ public class Paciente extends Pessoa implements Priorizavel{
 		ultimaTriagem = new Triagem(this, sintomasPreocupantes, classificacao);
 	}
 
-	public void obterIdentificacao() {
-		System.out.println("%s, ");
-	}
-	
 	public void exibirConsultas() {
 		System.out.println("Consultas:");
 		for (int i = 0; i < consultas.size(); i++) {

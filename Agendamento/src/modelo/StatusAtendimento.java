@@ -1,13 +1,13 @@
 package modelo;
 
-public enum StatusConsulta implements Comparable<StatusConsulta> {
+public enum StatusAtendimento implements Comparable<StatusAtendimento> {
 	PENDENTE("Pendente"),
 	REALIZADA("Realizada"),
 	CANCELADA("Cancelada");
 
 	private String nome;
 
-	private StatusConsulta(String nome) {
+	private StatusAtendimento(String nome) {
 		this.nome = nome;
 	}
 

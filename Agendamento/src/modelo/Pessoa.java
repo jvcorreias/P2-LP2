@@ -19,6 +19,10 @@ public abstract class Pessoa {
 		return "Nome: " + this.nome + ", Data de Nascimento: " + this.dataNascimento;
 	}
 
+	public int calcularIdade() {
+		return Data.agora().ano() - dataNascimento.ano();
+	}
+
 	@Override
 	public String toString() {
 		return nome + " - " + dataNascimento;

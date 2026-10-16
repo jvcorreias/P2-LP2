@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Hospital {
 	private String identificador;
-	private ArrayList<Setor> setores = new ArrayList<>();
+	private ArrayList<Paciente> pacientes = new ArrayList<>();
+	private ArrayList<Medico> medicos = new ArrayList<>();
 
 	public Hospital(String identificador) {
 		if (identificador != null && !identificador.isBlank()) {
@@ -12,51 +13,42 @@ public class Hospital {
 		}
 	}
 
+	public boolean cadastrarPaciente(Paciente paciente) {
+		if (paciente != null && !pacientes.contains(paciente)) {
+			pacientes.add(paciente);
+			return true;
+		}
+		return false;
+	}
+
+	public Paciente obterPaciente(int id) {
+		if (0 <= id && id <= pacientes.size()) {
+			return pacientes.get(id);
+		}
+		return null;
+	}
+
 	public boolean cadastrarMedico(Medico medico) {
-		for (Setor setor : setores) {
-			if (setor.medicoValido(medico)) {
-				return setor.adicionarMedico(medico);
-			}
+		if (medico != null && !medicos.contains(medico)) {
+			medicos.add(medico);
+			return true;
 		}
 		return false;
 	}
 
-	private Setor obtemSetor(Especialidade especialidade) {
-		if (especialidade == null) return null;
-		for (Setor setor : setores) {
-			if (setor.atendeEspecialidade(especialidade)) {
-				return setor;
-			}
-		}
-		return null;
-	}
+	public boolean gerarConsulta(Paciente paciente, Data data) {
+		if (paciente == null || data == null) return false;
 
-	public boolean criarSetor(Especialidade especialidade) {
-		if (especialidade != null) {
-			Setor alvo = new Setor(especialidade);
-			if (!setores.contains(alvo)) {
-				setores.add(alvo);
-				return true;
+		for (Medico medico : medicos) {
+			if (medico.estaDisponivel(data) && medico.ehQualificado(paciente)) {
+				Consulta novaConsulta = new Consulta(paciente, medico, data);
+				if (paciente.adicionarConsulta(novaConsulta)) {
+					medico.adicionarConsulta(novaConsulta);
+					return true;
+				}
 			}
 		}
 		return false;
-	}
-
-	public boolean removerSetor(Especialidade especialidade) {
-		return setores.remove(obtemSetor(especialidade));
-	}
-
-	public Consulta gerarConsulta(Paciente paciente, Especialidade especialidade, Data data) {
-		Setor setor = obtemSetor(especialidade);
-		if (setor == null) return null;
-
-		Medico medico = obtemSetor(especialidade).obterMedicoDisponivel(data);
-		if (medico != null) {
-			Consulta novaConsulta = new Consulta(paciente, medico, data);
-			medico.adicionarConsulta(novaConsulta);
-			return novaConsulta;
-		}
-		return null;
 	}
 
 	@Override
