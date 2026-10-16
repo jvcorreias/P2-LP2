@@ -4,15 +4,11 @@ import java.util.ArrayList;
 
 public abstract class Profissional extends Pessoa {
 
-	protected String CRM;
 	protected final int cargaMaxima;
 	protected ArrayList<Atendimento> atendimento = new ArrayList<>();
 	
-	public Profissional(String nome, Data dataNascimento, String CRM) {
+	public Profissional(String nome, Data dataNascimento) {
 		super(nome, dataNascimento);
-		if(CRM != null && !CRM.isBlank()) {
-			this.CRM = CRM;
-		}
 	}
 
 	public abstract boolean adicionarAtendimento(Atendimento novoAtendimento);
@@ -21,10 +17,10 @@ public abstract class Profissional extends Pessoa {
 
 	public abstract boolean ehQualificado(Paciente paciente);
 
-	public abstract boolean realizarAtendimento(boolean modificador);
+	public abstract String realizarAtendimento();
 
 	public void obterIdentificacao() {
-		System.out.printf("%s, CRM: %s, Especialidade: %s\n", this.obterDados(), this.CRM, this.especialidade);
+		System.out.printf("%s, Especialidade: %s\n", this.obterDados(), this.especialidade);
 	}
 
 	public boolean estaAtendendo() {
@@ -51,12 +47,6 @@ public abstract class Profissional extends Pessoa {
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
 		Profissional outro = (Profissional) obj;
-		if (!CRM.equals(outro.CRM)) return false;
 		return true;
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + " - CRM: " + CRM;
 	}
 }
