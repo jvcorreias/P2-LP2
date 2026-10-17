@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Paciente extends Pessoa implements Imprimivel{
 
-	private ArrayList<Atendimento> atendimentos = new ArrayList<>();
-	private Triagem ultimaTriagem;
+	private ArrayList<Consulta> consultas = new ArrayList<>();
+	private Prontuario prontuario;
 	
 	public Paciente(String nome, Data dataNascimento) {
 		super(nome, dataNascimento);
@@ -77,6 +77,12 @@ public class Paciente extends Pessoa implements Imprimivel{
 			pontosIdade += 5;
 		}
 		return pontosIdade;
+	}
+
+	@Override
+	public String gerarFichaParaImpressao() {
+		return "--- FICHA CADASTRAL ---\n" +
+				"Paciente: " + nome + " | CPF: " + cpf;
 	}
 
 	@Override
