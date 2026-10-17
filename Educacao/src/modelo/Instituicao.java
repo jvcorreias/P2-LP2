@@ -6,6 +6,7 @@ public class Instituicao {
 	private String nome;
 	private ArrayList<Aluno> alunos = new ArrayList<>();
 	private ArrayList<Reprovavel> disciplinas = new ArrayList<>();
+	private ArrayList<Eletiva> eletivas = new ArrayList<>();
 	private ArrayList<Turma> turmas = new ArrayList<>();
 	private ArrayList<Lecionador> lecionadores = new ArrayList<>();
 	
@@ -38,6 +39,19 @@ public class Instituicao {
 			}
 		}
 		System.out.println("Falha ao criar Disciplina...");
+		return false;
+	}
+	
+	public boolean criarEletiva(String nome, String codigo, int presencas) {
+		if (codigo != null && !codigo.isBlank()) {
+			Eletiva nova = new Eletiva(nome, codigo, presencas);
+			if (nova != null && !eletivas.contains(nova)) {
+				eletivas.add(nova);
+				System.out.println("Eletiva criada com sucesso!");
+				return true;
+			}
+		}
+		System.out.println("Falha ao criar Eletiva...");
 		return false;
 	}
 	
