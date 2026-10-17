@@ -1,16 +1,21 @@
 package modelo;
 
-public final class Pediatra extends Medico {
+import java.util.ArrayList;
+
+public final class Enfermeiro extends Profissional {
 	private final int cargaMaxima = 15;
 
-	public Pediatra(String nome, Data dataNascimento, String CRM) {
-	       super(nome, dataNascimento, CRM);
+	public Enfermeiro(String nome, Data dataNascimento, String COREN) {
+		super(nome, dataNascimento);
+		if(COREN != null && !COREN.isBlank()) {
+			this.COREN = COREN;
+		}
 	}
 
 	@Override
-	public boolean adicionarAtendimento(Atendimento novoAtendimento) {
-		if (novoAtendimento != null && !atendimentos.contains(novoAtendimento)) {
-			atendimentos.add(novoAtendimento);
+	public boolean adicionarAtendimento(Atendimento atendimento) {
+		if (atendimento != null && !atendimentos.contains(atendimento) && estaDisponivel(atendimento)) {
+			atendimentos.add(atendimento);
 			return true;
 		}
 		return false;
@@ -22,28 +27,16 @@ public final class Pediatra extends Medico {
 
 		for (Atendimento atendimento : atendimentos) {
 			if (atendimento.temMesmaData(novoAtendimento)) {
-				cargaDia += atendimento.getCarga();
+				atendimentosDia += atendimento.getCarga();
 			}
 		}
 
 		return cargaDia <= cargaMaxima;
 	}
 
-	@Override
-	public boolean ehQualificado(Paciente paciente) {
-		if (0 <= paciente.calcularIdade() && paciente.calcularIdade() < 18) {
-			return true;
-		}
-		return false;
-	}
 
 	@Override
-	public boolean realizarConsulta(Consulta consulta, boolean acompanhar) {
-		if (consulta == null || !atendimentos.contains(consulta)) return false;
-		consulta.realizar();
-		if (acompanhar) {
-			consulta.marcarAcompanhamento();
-		}
-		return true;
+	public String realizarAtendimento() {
+		return "Enfermeiro(a) " + nome + " (COREN: " + CRM + ") realizando triagem/vacinação.";
 	}
 }
