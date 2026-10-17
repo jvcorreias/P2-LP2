@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Instituicao {
 	private String nome;
@@ -119,6 +120,47 @@ public class Instituicao {
 	public Reprovavel getDisciplina(int index) {
 		if (1 <= index && index <= disciplinas.size()) {
 			return disciplinas.get(index-1);
+		}
+		return null;
+	}
+	
+	public void exibirEletiva() {
+		System.out.println("Eletivas");
+		for (int i = 0; i < eletivas.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(eletivas.get(i));
+		}
+	}
+	public Eletiva getEletiva(int index) {
+		if (1 <= index && index <= eletivas.size()) {
+			return eletivas.get(index-1);
+		}
+		return null;
+	}
+	
+	private ArrayList<Disciplina> obtemTodasMaterias() {
+		ArrayList<Disciplina> materias = new ArrayList<>();
+		for (Disciplina materia : disciplinas) {
+			materias.add(materia);
+		}
+		for (Disciplina materia : eletivas) {
+			materias.add(materia);
+		}
+		Collections.sort(materias);
+		return materias;
+	}
+	public void exibirTodasMaterias() {
+		ArrayList<Disciplina> materias = obtemTodasMaterias();
+		System.out.println("Matérias:");
+		for (int i = 0; i < materias.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(materias.get(i));
+		}
+	}
+	public Disciplina getMateriaEmTodasMaterias(int index) {
+		ArrayList<Disciplina> materias = obtemTodasMaterias();
+		if (1 <= index && index <= materias.size()) {
+			return materias.get(index);
 		}
 		return null;
 	}

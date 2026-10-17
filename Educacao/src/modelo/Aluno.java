@@ -32,12 +32,20 @@ public class Aluno {
 		return false;
 	}
 	
+	public boolean desmatricular(Matricula matricula) {
+		matricula.cancelar();
+		return disciplinas.remove(matricula);
+	}
+	public boolean desmatricular(int index) {
+		if (1 <= index && index <= disciplinas.size()) {
+			return desmatricular(disciplinas.get(index-1));
+		}
+		return false;
+	}
 	public boolean desmatricular(Disciplina disciplina) {
 		for (Matricula matricula : disciplinas) {
 			if (matricula.ehMesmaDisciplina(disciplina)) {
-				matricula.cancelar();
-				disciplinas.remove(matricula);
-				return true;
+				return desmatricular(matricula);
 			}
 		}
 		return false;
@@ -45,9 +53,9 @@ public class Aluno {
 	
 	public void listarMatriculas() {
 		System.out.println("Matrículas:");
-		for (Matricula matricula : disciplinas) {
-			System.out.print("\t");
-			System.out.println(matricula);
+		for (int i = 0; i < disciplinas.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(disciplinas.get(i));
 		}
 	}
 

@@ -44,5 +44,9 @@ public class AppRoteiro {
 		eu.listarMatriculas();
 		eu.ordenarMatriculas();
 		eu.listarMatriculas();
+		
+		eu.desmatricular(3);
+		eu.desmatricular(1);
+		eu.listarMatriculas();
 	}
 }
