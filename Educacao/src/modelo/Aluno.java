@@ -33,8 +33,11 @@ public class Aluno {
 	}
 	
 	public boolean desmatricular(Matricula matricula) {
-		matricula.cancelar();
-		return disciplinas.remove(matricula);
+		if (disciplinas.remove(matricula)) {			
+			matricula.cancelar();
+			return true;
+		}
+		return false;
 	}
 	public boolean desmatricular(int index) {
 		if (1 <= index && index <= disciplinas.size()) {
@@ -83,6 +86,10 @@ public class Aluno {
 			}
 		}
 		return false;
+	}
+	
+	public boolean temMesmoCpf(String cpf) {
+		return this.cpf.equals(cpf);
 	}
 	
 	@Override

@@ -6,7 +6,7 @@ import java.util.Collections;
 public class Instituicao {
 	private String nome;
 	private ArrayList<Aluno> alunos = new ArrayList<>();
-	private ArrayList<Reprovavel> disciplinas = new ArrayList<>();
+	private ArrayList<Reprovavel> reprovaveis = new ArrayList<>();
 	private ArrayList<Eletiva> eletivas = new ArrayList<>();
 	private ArrayList<Turma> turmas = new ArrayList<>();
 	private ArrayList<Lecionador> lecionadores = new ArrayList<>();
@@ -30,16 +30,16 @@ public class Instituicao {
 		return false;
 	}
 	
-	public boolean criarDisciplina(String nome, String codigo, int avaliacoes, int faltas) {
+	public boolean criarReprovavel(String nome, String codigo, int avaliacoes, int faltas) {
 		if (codigo != null && !codigo.isBlank()) {
 			Reprovavel nova = new Reprovavel(nome, codigo, avaliacoes, faltas);
-			if (nova != null && !disciplinas.contains(nova)) {
-				disciplinas.add(nova);
-				System.out.println("Disciplina criada com sucesso!");
+			if (nova != null && !reprovaveis.contains(nova)) {
+				reprovaveis.add(nova);
+				System.out.println("Disciplina Reprovável criada com sucesso!");
 				return true;
 			}
 		}
-		System.out.println("Falha ao criar Disciplina...");
+		System.out.println("Falha ao criar Disciplina Reprovável...");
 		return false;
 	}
 	
@@ -48,16 +48,16 @@ public class Instituicao {
 			Eletiva nova = new Eletiva(nome, codigo, presencas);
 			if (nova != null && !eletivas.contains(nova)) {
 				eletivas.add(nova);
-				System.out.println("Eletiva criada com sucesso!");
+				System.out.println("Disciplina Eletiva criada com sucesso!");
 				return true;
 			}
 		}
-		System.out.println("Falha ao criar Eletiva...");
+		System.out.println("Falha ao criar Disciplina Eletiva...");
 		return false;
 	}
 	
 	public boolean criarTurma(String identificador, Disciplina disciplina) {
-		if (identificador != null && !identificador.isBlank() && disciplinas.contains(disciplina)) {
+		if (identificador != null && !identificador.isBlank() && reprovaveis.contains(disciplina)) {
 			Turma nova = new Turma(identificador, disciplina);
 			if (nova != null && !turmas.contains(nova)) {
 				turmas.add(nova);
@@ -103,6 +103,16 @@ public class Instituicao {
 			System.out.println(alunos.get(i));
 		}
 	}
+	
+	public Aluno getAluno(String cpf) {
+		for (Aluno aluno : alunos) {
+			if (aluno.temMesmoCpf(cpf)) {
+				return aluno;
+			}
+		}
+		return null;
+	}
+	
 	public Aluno getAluno(int index) {
 		if (1 <= index && index <= alunos.size()) {
 			return alunos.get(index-1);
@@ -110,22 +120,30 @@ public class Instituicao {
 		return null;
 	}
 	
-	public void exibirDisciplinas() {
-		System.out.println("Disciplinas:");
-		for (int i = 0; i < disciplinas.size(); i++) {
+	public void exibirReprovaveis() {
+		System.out.println("Disciplinas Reprováveis:");
+		for (int i = 0; i < reprovaveis.size(); i++) {
 			System.out.print("\t" + (i+1) + ". ");
-			System.out.println(disciplinas.get(i));
+			System.out.println(reprovaveis.get(i));
 		}
 	}
-	public Reprovavel getDisciplina(int index) {
-		if (1 <= index && index <= disciplinas.size()) {
-			return disciplinas.get(index-1);
+	public Reprovavel getReprovavel(String codigo) {
+		for (Reprovavel reprovavel : reprovaveis) {
+			if (reprovavel.temMesmoCodigo(codigo)) {
+				return reprovavel;
+			}
+		}
+		return null;
+	}
+	public Reprovavel getReprovavel(int index) {
+		if (1 <= index && index <= reprovaveis.size()) {
+			return reprovaveis.get(index-1);
 		}
 		return null;
 	}
 	
-	public void exibirEletiva() {
-		System.out.println("Eletivas");
+	public void exibirEletivas() {
+		System.out.println("Disciplinas Eletivas");
 		for (int i = 0; i < eletivas.size(); i++) {
 			System.out.print("\t" + (i+1) + ". ");
 			System.out.println(eletivas.get(i));
@@ -138,29 +156,41 @@ public class Instituicao {
 		return null;
 	}
 	
-	private ArrayList<Disciplina> obtemTodasMaterias() {
-		ArrayList<Disciplina> materias = new ArrayList<>();
-		for (Disciplina materia : disciplinas) {
-			materias.add(materia);
+	public ArrayList<Disciplina> obtemTodasDisciplinas() {
+		ArrayList<Disciplina> disciplinas = new ArrayList<>();
+		for (Disciplina disciplina : reprovaveis) {
+			disciplinas.add(disciplina);
 		}
-		for (Disciplina materia : eletivas) {
-			materias.add(materia);
+		for (Disciplina disciplina : eletivas) {
+			disciplinas.add(disciplina);
 		}
-		Collections.sort(materias);
-		return materias;
+		Collections.sort(disciplinas);
+		return disciplinas;
 	}
-	public void exibirTodasMaterias() {
-		ArrayList<Disciplina> materias = obtemTodasMaterias();
-		System.out.println("Matérias:");
-		for (int i = 0; i < materias.size(); i++) {
+	public boolean haDisciplinas() {
+		return obtemTodasDisciplinas().size() > 0;
+	}
+	public void exibirTodasDisciplinas() {
+		ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
+		System.out.println("Disciplinas:");
+		for (int i = 0; i < disciplinas.size(); i++) {
 			System.out.print("\t" + (i+1) + ". ");
-			System.out.println(materias.get(i));
+			System.out.println(disciplinas.get(i));
 		}
 	}
-	public Disciplina getMateriaEmTodasMaterias(int index) {
-		ArrayList<Disciplina> materias = obtemTodasMaterias();
-		if (1 <= index && index <= materias.size()) {
-			return materias.get(index);
+	public Disciplina getDisciplina(String codigo) {
+		ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
+		for (Disciplina disciplina : disciplinas) {
+			if (disciplina.temMesmoCodigo(codigo)) {
+				return disciplina;
+			}
+		}
+		return null;
+	}
+	public Disciplina getDisciplina(int index) {
+		ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
+		if (1 <= index && index <= disciplinas.size()) {
+			return disciplinas.get(index-1);
 		}
 		return null;
 	}
@@ -194,6 +224,8 @@ public class Instituicao {
 	}
 	
 	
+	
+
 	@Override
 	public String toString() {
 		return nome;

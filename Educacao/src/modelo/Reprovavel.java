@@ -20,6 +20,15 @@ public final class Reprovavel extends Disciplina {
 			this.limiteFaltas = 0;
 		}
 	}
+	
+	public boolean cadastrarAvaliacao(int index, float nota) {
+		if (0 <= index && index < alunos.size()) {
+			alunos.get(index).ganharNota(nota);
+			alunos.get(index).realizarAvaliacao();
+			return true;
+		}
+		return false;
+	}
 
 	public boolean cadastrarAvaliacao(Aluno aluno, float nota) {
 		Matricula alvo = obterMatricula(aluno);
@@ -31,6 +40,13 @@ public final class Reprovavel extends Disciplina {
 		return false;
 	}
 
+	public boolean adicionarFaltas(int index, int qtd) {
+		if (0 <= index && index < alunos.size()) {
+			alunos.get(index).cadastrarFaltas(qtd);
+			return true;
+		}
+		return false;
+	}
 	public boolean adicionarFaltas(Aluno aluno, int qtd) {
 		Matricula alvo = obterMatricula(aluno);
 		if (alvo != null) {
@@ -48,6 +64,22 @@ public final class Reprovavel extends Disciplina {
 		return 0f;
 	}
 
+	@Override
+	public boolean encerrar(int index) {
+		if (index < 0 || alunos.size() <= index) return false;
+		
+		Matricula alvo = alunos.get(index);
+		if (alvo != null && alvo.concluiuAvaliacoes(totalAvaliacoes)) {
+			if (alvo.getMedia() >= 6f && !alvo.faltou(limiteFaltas + 1)) {
+				return alvo.aprovar();
+			}
+			else {
+				return alvo.reprovar();
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean encerrar(Aluno aluno) {
 		Matricula alvo = obterMatricula(aluno);

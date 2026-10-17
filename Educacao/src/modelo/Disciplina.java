@@ -18,6 +18,7 @@ public abstract class Disciplina implements Comparable<Disciplina> {
 		}
 	}
 	
+	public abstract boolean encerrar(int index);
 	public abstract boolean encerrar(Aluno aluno);
 	
 	public boolean adicionarPresencas(Aluno aluno, int qtd) {
@@ -47,9 +48,15 @@ public abstract class Disciplina implements Comparable<Disciplina> {
 	}
 
 	public void listarAlunos() {
+		System.out.println("Alunos:");
 		for (Matricula matricula : alunos) {
+			System.out.print("\t");
 			matricula.dadosAluno();
 		}
+	}
+	
+	public boolean temMesmoCodigo(String codigo) {
+		return this.codigo.equals(codigo);
 	}
 	
 	@Override

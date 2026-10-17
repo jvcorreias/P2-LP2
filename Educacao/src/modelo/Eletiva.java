@@ -15,6 +15,16 @@ public class Eletiva extends Disciplina {
 	}
 
 	@Override
+	public boolean encerrar(int index) {
+		Matricula alvo = alunos.get(index);
+		if (alvo != null && alvo.presente(minimoAulas)) {
+			alvo.aprovar();
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean encerrar(Aluno aluno) {
 		Matricula alvo = obterMatricula(aluno);
 		if (alvo != null && alvo.presente(minimoAulas)) {
