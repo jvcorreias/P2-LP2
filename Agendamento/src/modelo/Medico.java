@@ -37,22 +37,9 @@ public final class Medico extends Profissional {
 		return cargaDia <= cargaMaxima;
 	}
 
-	@Override
-	public boolean ehQualificado(Paciente paciente) {
-		if (paciente.calcularIdade() >= 60) {
-			return true;
-		}
-		return false;
-	}
 
 	@Override
-	public boolean realizarAtendimento(Veredito veredito) {
-		Atendimento alvo = atendimentoAFinalizar();
-
-		if (alvo != null) {
-			return alvo.finalizar(veredito);
-		}
-
-		return false;
+	public String realizarAtendimento() {
+		return "Médico(a) " + nome + " (CRM: " + CRM + ") atendendo na área de " + especialidade + ".";
 	}
 }
