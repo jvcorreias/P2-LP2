@@ -1,0 +1,8 @@
+package app;
+
+public enum OpcoesCriacao {
+	CADASTRAR_ALUNO,
+	CADASTRAR_LECIONADOR,
+	CRIAR_DISCIPLINA,
+	CRIAR_TURMA;
+}

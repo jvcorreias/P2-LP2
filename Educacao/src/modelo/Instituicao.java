@@ -138,7 +138,7 @@ public class Instituicao {
 		return null;
 	}
 	
-	private ArrayList<Disciplina> obtemTodasMaterias() {
+	public ArrayList<Disciplina> obtemTodasMaterias() {
 		ArrayList<Disciplina> materias = new ArrayList<>();
 		for (Disciplina materia : disciplinas) {
 			materias.add(materia);
@@ -149,7 +149,7 @@ public class Instituicao {
 		Collections.sort(materias);
 		return materias;
 	}
-	public void exibirTodasMaterias() {
+	private void exibirTodasMaterias() {
 		ArrayList<Disciplina> materias = obtemTodasMaterias();
 		System.out.println("Matérias:");
 		for (int i = 0; i < materias.size(); i++) {
@@ -165,8 +165,37 @@ public class Instituicao {
 		return null;
 	}
 
+	public void exibirTurmas() {
+		System.out.println("Turmas:");
+		for (int i = 0; i < turmas.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(turmas.get(i));
+		}
+	}
+	public Turma getTurma(int index) {
+		if (1 <= index && index <= turmas.size()) {
+			return turmas.get(index-1);
+		}
+		return null;
+	}
+	
+	public void exibirLecionadores() {
+		System.out.println("Lecionadores:");
+		for (int i = 0; i < lecionadores.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(lecionadores.get(i));
+		}
+	}
+	public Lecionador getLecionador(int index) {
+		if (1 <= index && index <= lecionadores.size()) {
+			return lecionadores.get(index-1);
+		}
+		return null;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Instituicao [nome=" + nome + "]";
+		return nome;
 	}
 }
