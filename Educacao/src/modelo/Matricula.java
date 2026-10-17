@@ -106,7 +106,7 @@ public class Matricula implements Comparable<Matricula> {
 	}
 	
 	public void dadosAluno() {
-		System.out.println(estado + ", " + aluno + " - Nota: " + nota + " - " + faltas + " faltas");
+		System.out.println(estado + ", " + aluno + " - Nota: " + nota + " - " + faltas + " faltas" + " - " + presencas + " presencas");
 	}
 	
 	@Override

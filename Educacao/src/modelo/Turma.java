@@ -34,7 +34,7 @@ public class Turma {
 
 	public void listarAlunos() {
 		for (Aluno aluno : alunos) {
-			System.out.println(aluno);
+			aluno.exibirMatricula(disciplina);
 		}
 	}
 	

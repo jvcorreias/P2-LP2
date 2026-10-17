@@ -232,12 +232,12 @@ public class Menu {
 					if (lecionador != null) {
 						disciplina = escolherDisciplina();
 						lecionador.cadastrarDisciplina(disciplina);
-						break;
 					}
 				}
 				else {
 					System.out.println("Favor, criar alguma Disciplina!");
 				}
+				break;
 			case 0:
 				voltar = true;
 				break;
@@ -327,6 +327,14 @@ public class Menu {
 					System.out.println("Crie um aluno!");
 				}
 				break;
+			case 4:
+				turma = escolherTurma();
+				if (turma != null) {
+					turma.listarAlunos();
+					System.out.println("Insira algo para continuar...");
+					input.next();
+				}
+				break;
 			case 0:
 				voltar = true;
 				break;
@@ -337,12 +345,13 @@ public class Menu {
 		System.out.println("1. Listar Turmas");
 		System.out.println("2. Criar Turma");
 		System.out.println("3. Adicionar Aluno");
+		System.out.println("4. Listar Alunos");
 		System.out.println("0. Voltar");
 		
 		System.out.println("Escolha opção:");
 		int opcao = input.nextInt();
 		
-		if (0 <= opcao && opcao <= 2) return opcao;
+		if (0 <= opcao && opcao <= 4) return opcao;
 		return -1;
 	}
 	
@@ -439,6 +448,7 @@ public class Menu {
 				break;
 			case 0:
 				voltar = true;
+				break;
 			}
 		}
 	}
@@ -475,6 +485,7 @@ public class Menu {
 				break;
 			case 0:
 				voltar = true;
+				break;
 			}
 		}
 	}

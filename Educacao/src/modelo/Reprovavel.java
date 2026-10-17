@@ -22,9 +22,9 @@ public final class Reprovavel extends Disciplina {
 	}
 	
 	public boolean cadastrarAvaliacao(int index, float nota) {
-		if (0 <= index && index < alunos.size()) {
-			alunos.get(index).ganharNota(nota);
-			alunos.get(index).realizarAvaliacao();
+		if (1 <= index && index <= alunos.size()) {
+			alunos.get(index-1).ganharNota(nota);
+			alunos.get(index-1).realizarAvaliacao();
 			return true;
 		}
 		return false;

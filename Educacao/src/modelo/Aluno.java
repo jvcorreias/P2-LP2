@@ -88,6 +88,14 @@ public class Aluno {
 		return false;
 	}
 	
+	public void exibirMatricula(Disciplina disciplina) {
+		for (Matricula matricula : disciplinas) {
+			if (matricula.ehMesmaDisciplina(disciplina)) {
+				matricula.dadosAluno();
+			}
+		}
+	}
+	
 	public boolean temMesmoCpf(String cpf) {
 		return this.cpf.equals(cpf);
 	}
