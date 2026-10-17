@@ -2,11 +2,17 @@ package modelo;
 
 import java.util.ArrayList;
 
-public final class Geriatra extends Profissional implements Cirurgiao {
+public final class Medico extends Profissional {
 	private final int cargaMaxima = 10;
 
 	public Geriatra(String nome, Data dataNascimento, String CRM) {
-		super(nome, dataNascimento, CRM);
+		super(nome, dataNascimento);
+		if(CRM != null && !CRM.isBlank()) {
+			this.CRM = CRM;
+		}
+		if(especialidade != null && !especialidade.isBlank()) {
+			this.especialidade = especialidade;
+		}
 	}
 
 	@Override
@@ -48,24 +54,5 @@ public final class Geriatra extends Profissional implements Cirurgiao {
 		}
 
 		return false;
-	}
-
-	@Override
-	public boolean realizarCirurgia(Cirurgia cirurgia) {
-		if (cirurgia != null && atendimentos.contains(cirurgia)) {
-			cirurgia.finalizar();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean realizarConsulta(boolean escalar) {
-		if (consulta == null || !atendimentos.contains(consulta)) return false;
-		consulta.realizar();
-		if (escalar) {
-			consulta.marcarCirurgia();
-		}
-		return true;
 	}
 }
