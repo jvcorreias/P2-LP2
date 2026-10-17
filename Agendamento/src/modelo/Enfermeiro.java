@@ -34,13 +34,19 @@ public final class Enfermeiro extends Profissional {
 		return cargaDia <= cargaMaxima;
 	}
 
-	public Consulta encaminharParaEspecialista(Paciente paciente, Medico especialista, LocalDateTime data){
-		String anotacao = "Triagem realizada por Enf. " + this.nome + ". Encaminhado para o especialista: " + especialista.getNome();
-		paciente.registrarNoHistorico(anotacao);
-
-		Consulta encaminhamento = new Consulta(paciente, especialista, data);
-
-		return encaminhamento
+	public Consulta encaminharParaEspecialista(Paciente paciente, Medico medico, Data data){
+		if(medico != null && medico.estaDisponivel(data)){
+			String anotacao = "Encaminhado para médico " + medico.getNome() + " pelo(a) enfermeiro(a) " + this.nome;
+			paciente.registrarNoHistorico(anotacao);
+			
+			Consulta encaminhamento = new Consulta(paciente, medico, data);
+			paciente.adicionarConsulta(encaminhamento);
+			medico.adicionarConsulta(encaminhamento);
+			
+			
+			return encaminhamento;
+		}
+		return null;
 	}
 
 	@Override
