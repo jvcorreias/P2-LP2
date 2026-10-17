@@ -1,14 +1,17 @@
 package modelo;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public abstract class Atendimento implements Comparable<Atendimento> {
+
+public class Consulta implements Imprimivel, Comparable<Consulta> {
 
 	private final int carga;
 	private Data data;
 	private Paciente paciente;
 	private Profissional profissional;
-	private StatusAtendimento status = StatusAtendimento.PENDENTE;
+	private StatusConsulta status = StatusConsulta.PENDENTE;
 	
-	public Atendimento(Paciente paciente, Profissional profissional, Data data) {
+	public Consulta(Paciente paciente, Profissional profissional, Data data) {
 		if (paciente != null) {
 			this.paciente = paciente;
 		}
@@ -18,32 +21,6 @@ public abstract class Atendimento implements Comparable<Atendimento> {
 		if (data != null && Data.agora().compareTo(data) < 1) {
 			this.data = data;
 		}
-	}
-
-	public boolean marcarCirurgia() {
-		if (realizado()) {
-			Consulta acompanhamento = new Consulta(paciente, profissional, data.avancarDias(35));
-			if (consulta != null) {
-				paciente.adicionarAtendimento(acompanhamento);
-				profissional.adicionarAtendimento(acompanhamento);
-				return true;
-			}
-
-		}
-		return false;
-	}
-
-	// apenas chamado por Cirurgiões
-	public boolean marcarCirurgia() {
-		if (realizado()) {
-			Cirurgia cirurgia = new Cirurgia(paciente, profissional, data.avancarDias(56));
-			if (cirurgia != null) {
-				paciente.adicionarAtendimento(cirurgia);
-				profissional.adicionarAtendimento(cirurgia);
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public int getCarga() {
@@ -79,6 +56,8 @@ public abstract class Atendimento implements Comparable<Atendimento> {
 		return data.equals(atendimento.data);
 	}
 
+	
+
 	public boolean pendente() {
 		return status.equals(StatusAtendimento.PENDENTE);
 	}
@@ -100,11 +79,20 @@ public abstract class Atendimento implements Comparable<Atendimento> {
 	}
 	
 	@Override
-	public int compareTo(Atendimento outra) {
+	public int compareTo(Consulta outra) {
 		if (status.compareTo(outra.status) != 0) return status.compareTo(outra.status);
-		return data.compareTo(outra.data);
+		return this.data.compareTo(outra.data);
 	}
 
+	@Override
+	public String gerarFichaParaImpressao(){
+		return "--- GUIA DE ATENDIMENTO ---\n" +
+				"Data: " + data + "\n" + 
+				"Paciente: " + paciente + "\n" + 
+				"Atendimento com: " + profissional + "\n" + 
+				"Status: " + status; 
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
