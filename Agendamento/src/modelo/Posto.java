@@ -58,6 +58,14 @@ public class Posto {
 		return false;
 	}
 
+	public boolean registrarEncaminhamento(Consulta consultaEncaminhada){
+		if(consultaEncaminhada != null){
+			this.consultas.add(consultaEncaminhada);
+			return true;
+		}
+		return false;
+	}
+
 	public List<Consulta> getAgendaOrdenada(){
 		Collections.sort(consultas);
 		return consultas;
