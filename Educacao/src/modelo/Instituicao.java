@@ -138,7 +138,7 @@ public class Instituicao {
 		return null;
 	}
 	
-	public ArrayList<Disciplina> obtemTodasMaterias() {
+	private ArrayList<Disciplina> obtemTodasMaterias() {
 		ArrayList<Disciplina> materias = new ArrayList<>();
 		for (Disciplina materia : disciplinas) {
 			materias.add(materia);
@@ -149,7 +149,7 @@ public class Instituicao {
 		Collections.sort(materias);
 		return materias;
 	}
-	private void exibirTodasMaterias() {
+	public void exibirTodasMaterias() {
 		ArrayList<Disciplina> materias = obtemTodasMaterias();
 		System.out.println("Matérias:");
 		for (int i = 0; i < materias.size(); i++) {
