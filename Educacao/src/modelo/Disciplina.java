@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Disciplina {
+public abstract class Disciplina implements Comparable<Disciplina> {
 	protected String nome;
 	protected String codigo;
 	
@@ -54,7 +54,7 @@ public abstract class Disciplina {
 	
 	@Override
 	public String toString() {
-		return "Disciplina [nome=" + nome + ", codigo=" + codigo + "]";
+		return nome + " [" + codigo + "]";
 	}
 	
 
@@ -75,5 +75,11 @@ public abstract class Disciplina {
 			return false;
 		Disciplina other = (Disciplina) obj;
 		return Objects.equals(codigo, other.codigo);
+	}
+	
+	@Override
+	public int compareTo(Disciplina outra) {
+		if (outra == null) return 1;
+		return nome.compareTo(outra.nome);
 	}
 }

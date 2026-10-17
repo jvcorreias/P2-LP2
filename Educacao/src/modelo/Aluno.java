@@ -1,13 +1,14 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Aluno {
 	private String nome;
 	private String cpf;
 	
-	protected ArrayList<Matricula> disciplinas = new ArrayList<>();
+	protected ArrayList<Matricula> disciplinas = new ArrayList<Matricula>();
 	
 	public Aluno(String nome, String cpf) {
 		if (nome != null && !nome.isBlank()) {
@@ -16,6 +17,10 @@ public class Aluno {
 		if (cpf != null && !cpf.isBlank()) {
 			this.cpf = cpf;
 		}
+	}
+	
+	public void ordenarMatriculas() {
+		Collections.sort(disciplinas);
 	}
 	
 	public boolean matricular(Disciplina disciplina) {
@@ -74,7 +79,7 @@ public class Aluno {
 	
 	@Override
 	public String toString() {
-		return "Aluno [nome=" + nome + ", cpf=" + cpf + "]";
+		return nome + ", cpf=" + cpf;
 	}
 
 	@Override

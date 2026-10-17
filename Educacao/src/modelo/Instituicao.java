@@ -17,43 +17,96 @@ public class Instituicao {
 	
 	public boolean criarAluno(String nome, String cpf) {
 		if (cpf != null && !cpf.isBlank()) {
-			alunos.add(new Aluno(nome, cpf));
-			return true;
+			Aluno novo = new Aluno(nome, cpf);
+			if (novo != null && !alunos.contains(novo)) {
+				alunos.add(novo);
+				System.out.println("Aluno criado com sucesso!");
+				return true;
+			}
 		}
+		System.out.println("Falha ao criar Aluno...");
 		return false;
 	}
 	
 	public boolean criarDisciplina(String nome, String codigo, int avaliacoes, int faltas) {
 		if (codigo != null && !codigo.isBlank()) {
-			disciplinas.add(new Reprovavel(nome, codigo, avaliacoes, faltas));
-			return true;
+			Reprovavel nova = new Reprovavel(nome, codigo, avaliacoes, faltas);
+			if (nova != null && !disciplinas.contains(nova)) {
+				disciplinas.add(nova);
+				System.out.println("Disciplina criada com sucesso!");
+				return true;
+			}
 		}
+		System.out.println("Falha ao criar Disciplina...");
 		return false;
 	}
 	
 	public boolean criarTurma(String identificador, Disciplina disciplina) {
 		if (identificador != null && !identificador.isBlank() && disciplinas.contains(disciplina)) {
-			turmas.add(new Turma(identificador, disciplina));
-			return true;
+			Turma nova = new Turma(identificador, disciplina);
+			if (nova != null && !turmas.contains(nova)) {
+				turmas.add(nova);
+				System.out.println("Turma criada com sucesso!");
+				return true;
+			}
 		}
+		System.out.println("Falha ao criar Turma...");
 		return false;
 	}
 	
 	public boolean criarProfessor(String nome, String cadastro, Disciplina disciplina) {
 		if (cadastro != null && !cadastro.isBlank()) {
-			lecionadores.add(new Professor(nome, cadastro, disciplina));
+			Professor novo = new Professor(nome, cadastro, disciplina);
+			if (novo != null && !lecionadores.contains(novo)) {
+				lecionadores.add(novo);
+				System.out.println("Professor criado com sucesso!");
+				return true;
+			}
 		}
+		System.out.println("Falha ao criar Professor...");
 		return false;
 	}
 	
 	public boolean criarMonitor(String nome, String cpf, Disciplina disciplina) {
 		if (cpf != null && !cpf.isBlank()) {
 			Monitor novo = new Monitor(nome, cpf, disciplina);
-			alunos.add(novo);
-			lecionadores.add(novo);
-			return true;
+			if (novo != null && !alunos.contains(novo) && !lecionadores.contains(novo)) {
+				alunos.add(novo);
+				lecionadores.add(novo);
+				System.out.println("Monitor criado com sucesso!");
+				return true;
+			}
 		}
+		System.out.println("Falha ao criar Monitor...");
 		return false;
+	}
+	
+	public void exibirAlunos() {
+		System.out.println("Alunos:");
+		for (int i = 0; i < alunos.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(alunos.get(i));
+		}
+	}
+	public Aluno getAluno(int index) {
+		if (1 <= index && index <= alunos.size()) {
+			return alunos.get(index-1);
+		}
+		return null;
+	}
+	
+	public void exibirDisciplinas() {
+		System.out.println("Disciplinas:");
+		for (int i = 0; i < disciplinas.size(); i++) {
+			System.out.print("\t" + (i+1) + ". ");
+			System.out.println(disciplinas.get(i));
+		}
+	}
+	public Reprovavel getDisciplina(int index) {
+		if (1 <= index && index <= disciplinas.size()) {
+			return disciplinas.get(index-1);
+		}
+		return null;
 	}
 
 	@Override

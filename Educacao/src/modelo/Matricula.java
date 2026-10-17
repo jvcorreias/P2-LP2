@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.Objects;
 
-public class Matricula {
+public class Matricula implements Comparable<Matricula> {
 	private Aluno aluno;
 	private Disciplina disciplina;
 	private int avaliacoes = 0;
@@ -108,17 +108,16 @@ public class Matricula {
 	public void dadosAluno() {
 		System.out.println(estado + ", " + aluno + " - Nota: " + nota + " - " + faltas + " faltas");
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Matricula [aluno=" + aluno + ", disciplina=" + disciplina + ", avaliacoes=" + avaliacoes + ", nota="
-				+ nota + ", faltas=" + faltas + ", estado=" + estado + "]";
+				+ nota + ", presencas=" + presencas + ", faltas=" + faltas + ", estado=" + estado + "]";
 	}
-	
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(aluno, disciplina, Integer.valueOf(faltas), Float.valueOf(nota));
+		return Objects.hash(aluno, disciplina);
 	}
 
 	@Override
@@ -130,7 +129,15 @@ public class Matricula {
 		if (getClass() != obj.getClass())
 			return false;
 		Matricula other = (Matricula) obj;
-		return Objects.equals(aluno, other.aluno) && Objects.equals(disciplina, other.disciplina)
-				&& faltas == other.faltas && Float.floatToIntBits(nota) == Float.floatToIntBits(other.nota);
+		return Objects.equals(aluno, other.aluno) && Objects.equals(disciplina, other.disciplina);
+	}
+
+	
+	@Override
+	public int compareTo(Matricula outra) {
+		if (outra == null) return 1;
+		if (!estado.equals(outra.estado)) return estado.compareTo(outra.estado);
+		if (nota != outra.nota) return Float.compare(nota, outra.nota);
+		return disciplina.compareTo(outra.disciplina);
 	}
 }
