@@ -1,17 +1,20 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class Hospital {
-	private String identificador;
+public class Posto {
+	private String nome;
 
 	private ArrayList<Paciente> pacientes = new ArrayList<>();
 	private ArrayList<Profissional> profissionais = new ArrayList<>();
+	private ArrayList<Consulta> consultas = new ArrayList<>();
 
 
-	public Hospital(String identificador) {
+	public Posto(String nome) {
 		if (identificador != null && !identificador.isBlank()) {
-			this.identificador = identificador;
+			this.nome = nome;
 		}
 	}
 
@@ -43,10 +46,11 @@ public class Hospital {
 		if (paciente == null || data == null) return false;
 
 		for (Profissional profissional : profissionais) {
-			if (profissional.estaDisponivel(data) && profissional.ehQualificado(paciente)) {
+			if (profissional instanceof Enfermeiro && profissional.estaDisponivel(data)) {
 				Consulta novaConsulta = new Consulta(paciente, profissional, data);
 				if (paciente.adicionarConsulta(novaConsulta)) {
 					profissional.adicionarConsulta(novaConsulta);
+					this.consultas.adicionarConsulta(novaConsulta);
 					return true;
 				}
 			}
@@ -54,8 +58,13 @@ public class Hospital {
 		return false;
 	}
 
+	public List<Consulta> getAgendaOrdenada(){
+		Collections.sort(consultas);
+		return consultas;
+	}
+
 	@Override
 	public String toString() {
-		return identificador;
+		return nome;
 	}
 }
