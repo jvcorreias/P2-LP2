@@ -42,6 +42,11 @@ public abstract class Profissional extends Pessoa {
 	}
 
 	@Override
+	public String toString(){
+		return this.nome;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
 		if (obj == null) return false;
