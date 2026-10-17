@@ -3,7 +3,7 @@ package modelo;
 import java.util.Collections;
 import java.util.ArrayList;
 
-public class Paciente extends Pessoa implements Priorizavel{
+public class Paciente extends Pessoa implements Imprimivel{
 
 	private ArrayList<Atendimento> atendimentos = new ArrayList<>();
 	private Triagem ultimaTriagem;
@@ -81,6 +81,6 @@ public class Paciente extends Pessoa implements Priorizavel{
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return this.nome();
 	}
 }
