@@ -66,7 +66,7 @@ public class Posto {
 		return false;
 	}
 
-	public List<Consulta> getAgendaOrdenada(){
+	public ArrayList<Consulta> getAgendaOrdenada(){
 		Collections.sort(consultas);
 		return consultas;
 	}
