@@ -24,6 +24,13 @@ public class Turma {
 		}
 		return false;
 	}
+	public boolean removerAluno(int index) {
+		if (1 <= index && index <= alunos.size()) {
+			alunos.remove(index);
+			return true;
+		}
+		return false;
+	}
 	
 	public boolean aula(Lecionador lecionador) {
 		if (lecionador != null && lecionador.leciona(disciplina)) {

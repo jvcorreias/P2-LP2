@@ -28,6 +28,12 @@ public class AppRoteiro {
 		UERJ.getDisciplina("código").encerrar(UERJ.getAluno("cpfVálido"));
 		UERJ.getAluno("cpfVálido").listarMatriculas();
 		UERJ.getDisciplina("código").listarAlunos();
+		
+		
+		UERJ.criarEletiva("Plantacao de Bananeira", "PTB10", 10);
+		UERJ.getAluno("cpfVálido").matricular(UERJ.getDisciplina("PTB10"));
+		UERJ.getDisciplina("PTB10").cancelarDisciplina();
+		UERJ.getAluno("cpfVálido").listarMatriculas();
 	}
 	
 	public static void oldMain(String [] args) {

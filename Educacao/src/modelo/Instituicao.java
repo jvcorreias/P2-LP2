@@ -29,6 +29,17 @@ public class Instituicao {
 		System.out.println("Falha ao criar Aluno...");
 		return false;
 	}
+	public boolean excluirAluno(Aluno aluno) {
+		if (alunos.contains(aluno)) {
+			if (lecionadores.contains(aluno)) {
+				lecionadores.remove(aluno);
+			}
+			aluno.cancelarCurso();
+			alunos.remove(aluno);
+			return true;
+		}
+		return false;
+	}
 	
 	public boolean criarReprovavel(String nome, String codigo, int avaliacoes, int faltas) {
 		if (codigo != null && !codigo.isBlank()) {
@@ -36,6 +47,7 @@ public class Instituicao {
 			if (nova != null && !reprovaveis.contains(nova)) {
 				reprovaveis.add(nova);
 				System.out.println("Disciplina Reprovável criada com sucesso!");
+				Collections.sort(reprovaveis);
 				return true;
 			}
 		}
@@ -49,11 +61,29 @@ public class Instituicao {
 			if (nova != null && !eletivas.contains(nova)) {
 				eletivas.add(nova);
 				System.out.println("Disciplina Eletiva criada com sucesso!");
+				Collections.sort(eletivas);
 				return true;
 			}
 		}
 		System.out.println("Falha ao criar Disciplina Eletiva...");
 		return false;
+	}
+	public boolean excluirDisciplina(Disciplina disciplina) {
+		ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
+		if (disciplinas.contains(disciplina)) {
+			disciplina.cancelarDisciplina();
+			removeDisciplina(disciplina);
+			return true;
+		}
+		return false;
+	}
+	private void removeDisciplina(Disciplina disciplina) {
+		if (reprovaveis.contains(disciplina)) {
+			reprovaveis.remove(disciplina);
+		}
+		else {
+			eletivas.remove(disciplina);
+		}
 	}
 	
 	public boolean criarTurma(String identificador, Disciplina disciplina) {
@@ -68,6 +98,9 @@ public class Instituicao {
 		System.out.println("Falha ao criar Turma...");
 		return false;
 	}
+	public boolean excluirTurma(Turma turma) {
+		return turmas.remove(turma);
+	}
 	
 	public boolean criarProfessor(String nome, String cadastro, Disciplina disciplina) {
 		if (cadastro != null && !cadastro.isBlank()) {
@@ -80,6 +113,9 @@ public class Instituicao {
 		}
 		System.out.println("Falha ao criar Professor...");
 		return false;
+	}
+	public boolean excluirProfessor(Professor professor) {
+		return lecionadores.remove(professor);
 	}
 	
 	public boolean criarMonitor(String nome, String cpf, Disciplina disciplina) {
@@ -94,6 +130,16 @@ public class Instituicao {
 		}
 		System.out.println("Falha ao criar Monitor...");
 		return false;
+	}
+	public boolean excluirMonitor(Monitor monitor) {
+		return alunos.remove(monitor) && lecionadores.remove(monitor);
+	}
+	
+	public boolean excluirLecionador(Lecionador lecionador) {
+		if (alunos.contains(lecionador)) {
+			alunos.remove(lecionador);
+		}
+		return lecionadores.remove(lecionador);
 	}
 	
 	public void exibirAlunos() {
@@ -164,7 +210,6 @@ public class Instituicao {
 		for (Disciplina disciplina : eletivas) {
 			disciplinas.add(disciplina);
 		}
-		Collections.sort(disciplinas);
 		return disciplinas;
 	}
 	public boolean haDisciplinas() {

@@ -27,6 +27,7 @@ public class Aluno {
 		if (!matriculado(disciplina)) {
 			Matricula matriculaNova = new Matricula(this, disciplina);
 			disciplinas.add(matriculaNova);
+			ordenarMatriculas();
 			return true;
 		}
 		return false;
@@ -35,6 +36,7 @@ public class Aluno {
 	public boolean desmatricular(Matricula matricula) {
 		if (disciplinas.remove(matricula)) {			
 			matricula.cancelar();
+			ordenarMatriculas();
 			return true;
 		}
 		return false;
@@ -98,6 +100,13 @@ public class Aluno {
 	
 	public boolean temMesmoCpf(String cpf) {
 		return this.cpf.equals(cpf);
+	}
+	
+	public boolean cancelarCurso() {
+		for (Matricula matricula : disciplinas) {
+			if (!matricula.cancelar()) return false;
+		}
+		return true;
 	}
 	
 	@Override

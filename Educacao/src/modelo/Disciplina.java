@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public abstract class Disciplina implements Comparable<Disciplina> {
@@ -30,8 +31,13 @@ public abstract class Disciplina implements Comparable<Disciplina> {
 		return false;
 	}
 	
+	public void ordenarMatriculas() {
+		Collections.sort(alunos);
+	}
+	
 	public void adicionarMatricula(Matricula matricula) {
 		alunos.add(matricula);
+		ordenarMatriculas();
 	}
 	
 	public void removerMatricula(Matricula matricula) {
@@ -53,6 +59,14 @@ public abstract class Disciplina implements Comparable<Disciplina> {
 			System.out.print("\t");
 			matricula.dadosAluno();
 		}
+	}
+	
+	public boolean cancelarDisciplina() {
+		for (int i = 0; i < alunos.size(); i++) {
+			Matricula alvo = alunos.get(0);
+			if (!alvo.cancelar()) return false;
+		}
+		return true;
 	}
 	
 	public boolean temMesmoCodigo(String codigo) {

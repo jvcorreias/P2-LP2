@@ -149,6 +149,14 @@ public class Menu {
 				}
 				break;
 			case 4:
+				aluno = escolherAluno();
+				if (aluno != null) {
+					aluno.listarMatriculas();
+					System.out.println("Insira algo para continuar...");
+					input.next();
+				}
+				break;
+			case 5:
 				if (instituicao.haDisciplinas()) {
 					aluno = escolherAluno();
 					if (aluno != null) {
@@ -160,10 +168,16 @@ public class Menu {
 					System.out.println("Favor, criar alguma Disciplina!");
 				}
 				break;
-			case 5:
+			case 6:
 				aluno = escolherAluno();
 				if (aluno != null) {
 					aluno.desmatricular(escolherMatriculaAluno(aluno));
+				}
+				break;
+			case 7:
+				aluno = escolherAluno();
+				if (aluno != null) {
+					instituicao.excluirAluno(aluno);
 				}
 				break;
 			case 0:
@@ -176,14 +190,16 @@ public class Menu {
 		System.out.println("1. Listar Alunos");
 		System.out.println("2. Criar Aluno");
 		System.out.println("3. Criar Monitor");
-		System.out.println("4. Matricular");
-		System.out.println("5. Desmatricular");
+		System.out.println("4. Listar Matrículas");
+		System.out.println("5. Matricular");
+		System.out.println("6. Desmatricular");
+		System.out.println("7. Excluir Aluno");
 		System.out.println("0. Voltar");
 		
 		System.out.println("Escolha opção:");
 		int opcao = input.nextInt();
 		
-		if (0 <= opcao && opcao <= 5) return opcao;
+		if (0 <= opcao && opcao <= 7) return opcao;
 		return -1;
 	}
 
@@ -238,6 +254,12 @@ public class Menu {
 					System.out.println("Favor, criar alguma Disciplina!");
 				}
 				break;
+			case 5:
+				lecionador = escolherLecionador();
+				if (lecionador != null) {
+					instituicao.excluirLecionador(lecionador);
+				}
+				break;
 			case 0:
 				voltar = true;
 				break;
@@ -249,13 +271,14 @@ public class Menu {
 		System.out.println("2. Criar Professor");
 		System.out.println("3. Criar Monitor");
 		System.out.println("4. Cadastrar Disciplina");
+		System.out.println("5. Excluir Lecionador");
 		System.out.println("0. Voltar");
 		
 		System.out.println("Escolha opção:");
 		int opcao = input.nextInt();
 		
-		if (0 <= opcao && opcao <= 4) return opcao;
-		return 0;
+		if (0 <= opcao && opcao <= 5) return opcao;
+		return -1;
 	}
 	
 	
@@ -317,6 +340,20 @@ public class Menu {
 				}
 				break;
 			case 3:
+				turma = escolherTurma();
+				if (turma != null) {
+					instituicao.excluirTurma(turma);
+				}
+				break;
+			case 4:
+				turma = escolherTurma();
+				if (turma != null) {
+					turma.listarAlunos();
+					System.out.println("Insira algo para continuar...");
+					input.next();
+				}
+				break;
+			case 5:
 				aluno = escolherAluno();
 				if (aluno != null) {
 					turma = escolherTurma();
@@ -327,12 +364,17 @@ public class Menu {
 					System.out.println("Crie um aluno!");
 				}
 				break;
-			case 4:
+			case 6:
 				turma = escolherTurma();
 				if (turma != null) {
-					turma.listarAlunos();
-					System.out.println("Insira algo para continuar...");
-					input.next();
+					turma.removerAluno(escolherAlunoTurma(turma));
+				}
+				break;
+			case 7:
+				turma = escolherTurma();
+				if (turma != null) {
+					Lecionador lecionador = escolherLecionador();
+					turma.aula(lecionador);
 				}
 				break;
 			case 0:
@@ -344,14 +386,17 @@ public class Menu {
 	private static int opcoesTurmas() {
 		System.out.println("1. Listar Turmas");
 		System.out.println("2. Criar Turma");
-		System.out.println("3. Adicionar Aluno");
+		System.out.println("3. Excluir Turma");
 		System.out.println("4. Listar Alunos");
+		System.out.println("5. Adicionar Aluno");
+		System.out.println("6. Remover Aluno");
+		System.out.println("7. Realizar Aula");
 		System.out.println("0. Voltar");
 		
 		System.out.println("Escolha opção:");
 		int opcao = input.nextInt();
 		
-		if (0 <= opcao && opcao <= 4) return opcao;
+		if (0 <= opcao && opcao <= 7) return opcao;
 		return -1;
 	}
 	
@@ -483,6 +528,12 @@ public class Menu {
 					disciplina.encerrar(index);
 				}
 				break;
+			case 3:
+				disciplina = escolherDisciplina();
+				if (disciplina != null) {
+					instituicao.excluirDisciplina(disciplina);
+				}
+				break;
 			case 0:
 				voltar = true;
 				break;
@@ -492,12 +543,13 @@ public class Menu {
 	private static int opcoesTodasDisciplinas() {
 		System.out.println("1. Listar Todas Disciplinas");
 		System.out.println("2. Concluir Matrícula");
+		System.out.println("3. Excluir Disciplina");
 		System.out.println("0. Voltar");
 		
 		System.out.println("Escolha opção:");
 		int opcao = input.nextInt();
 		
-		if (0 <= opcao && opcao <= 2) return opcao;
+		if (0 <= opcao && opcao <= 3) return opcao;
 		return -1;
 	}
 	
@@ -541,6 +593,12 @@ public class Menu {
 		System.out.println("Escolha um Lecionador:");
 		int index = input.nextInt();
 		return instituicao.getLecionador(index);
+	}
+	
+	private static int escolherAlunoTurma(Turma turma) {
+		turma.listarAlunos();
+		System.out.println("Escolha um aluno:");
+		return input.nextInt();
 	}
 
 	private static Turma escolherTurma() {

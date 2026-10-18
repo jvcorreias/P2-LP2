@@ -25,6 +25,7 @@ public class Matricula implements Comparable<Matricula> {
 		if (estado.equals(Estado.VALIDA)) {
 			disciplina.removerMatricula(this);
 			estado = Estado.CANCELADA;
+			mantemOrdenado();
 			return true;
 		}
 		return false;
@@ -34,6 +35,7 @@ public class Matricula implements Comparable<Matricula> {
 		if (estado.equals(Estado.VALIDA)) {
 			disciplina.removerMatricula(this);
 			estado = Estado.CONCLUIDA;
+			mantemOrdenado();
 			return true;
 		}
 		return false;
@@ -43,6 +45,7 @@ public class Matricula implements Comparable<Matricula> {
 		if (estado.equals(Estado.VALIDA)) {
 			disciplina.removerMatricula(this);
 			estado = Estado.REPROVADA;
+			mantemOrdenado();
 			return true;
 		}
 		return false;
@@ -83,6 +86,7 @@ public class Matricula implements Comparable<Matricula> {
 	public void ganharNota(float nota) {
 		if (nota > 0f) {
 			this.nota += nota;
+			mantemOrdenado();
 		}
 	}
 	
@@ -107,6 +111,11 @@ public class Matricula implements Comparable<Matricula> {
 	
 	public void dadosAluno() {
 		System.out.println(estado + ", " + aluno + " - Nota: " + nota + " - " + faltas + " faltas" + " - " + presencas + " presencas");
+	}
+	
+	public void mantemOrdenado() {
+		aluno.ordenarMatriculas();
+		disciplina.ordenarMatriculas();
 	}
 	
 	@Override
