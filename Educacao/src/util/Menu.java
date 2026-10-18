@@ -226,7 +226,9 @@ public class Menu {
 					nome = receberTextoNaoVazio(input, "Digite o nome do Professor:");
 					cadastro = receberTextoNaoVazio(input, "Digite o cadastro do Professor:");
 					disciplina = escolherDisciplina();
-					instituicao.criarProfessor(nome, cadastro, disciplina);
+					if (disciplina != null) {
+						instituicao.criarProfessor(nome, cadastro, disciplina);						
+					}
 				}
 				else {
 					System.out.println("Favor, criar alguma Disciplina!");
@@ -247,7 +249,9 @@ public class Menu {
 					lecionador = escolherLecionador();
 					if (lecionador != null) {
 						disciplina = escolherDisciplina();
-						lecionador.cadastrarDisciplina(disciplina);
+						if (disciplina != null) {
+							lecionador.cadastrarDisciplina(disciplina);							
+						}
 					}
 				}
 				else {
@@ -336,7 +340,9 @@ public class Menu {
 				if (instituicao.haDisciplinas()) {
 					identificador = receberTextoNaoVazio(input, "Digite o Identificador da Turma:");
 					disciplina = escolherDisciplina();
-					instituicao.criarTurma(identificador, disciplina);
+					if (disciplina != null) {
+						instituicao.criarTurma(identificador, disciplina);
+					}
 				}
 				break;
 			case 3:
