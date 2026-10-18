@@ -160,7 +160,9 @@ public class Menu {
 					aluno = escolherAluno();
 					if (aluno != null) {
 						disciplina = escolherDisciplina();
-						aluno.matricular(disciplina);
+						if (disciplina != null) {
+							aluno.matricular(disciplina);
+						}
 					}
 				}
 				else {

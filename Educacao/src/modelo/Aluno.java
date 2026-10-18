@@ -105,6 +105,7 @@ public class Aluno {
 		return false;
 	}
 	public boolean matriculaCancelada(Disciplina disciplina) {
+		if (disciplina == null) return false;
 		for (Matricula matricula : disciplinas) {
 			if (matricula.ehMesmaDisciplina(disciplina)) {
 				return matricula.cancelada();
