@@ -29,6 +29,10 @@ public class Professor implements Lecionador {
 		}
 		return false;
 	}
+	@Override
+	public boolean descadastrarDisciplina(Disciplina disciplina) {
+		return disciplinas.remove(disciplina);
+	}
 	
 	@Override
 	public int lecionar(Disciplina disciplina, ArrayList<Aluno> alunos) {
@@ -67,5 +71,10 @@ public class Professor implements Lecionador {
 			return false;
 		Professor other = (Professor) obj;
 		return Objects.equals(cadastro, other.cadastro);
+	}
+
+	@Override
+	public boolean identificacao(String cadastro) {
+		return cadastro.equals(cadastro);
 	}
 }

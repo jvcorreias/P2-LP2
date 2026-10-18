@@ -18,7 +18,7 @@ public class Turma {
 	}
 	
 	public boolean cadastrarAluno(Aluno aluno) {
-		if (aluno != null && !alunos.contains(aluno) && aluno.matriculado(disciplina)) {
+		if (aluno != null && !alunos.contains(aluno) && aluno.matriculado(disciplina) && aluno.estaCursando(disciplina)) {
 			alunos.add(aluno);
 			return true;
 		}
@@ -40,9 +40,19 @@ public class Turma {
 	}
 
 	public void listarAlunos() {
+		System.out.println("Alunos:");
 		for (Aluno aluno : alunos) {
+			System.out.print("\t");
 			aluno.exibirMatricula(disciplina);
 		}
+	}
+	
+	public boolean ehDisciplina(Disciplina disciplina) {
+		return this.disciplina.equals(disciplina);
+	}
+	
+	public boolean temIdentificador(String identificador) {
+		return this.identificador.equals(identificador);
 	}
 	
 	@Override

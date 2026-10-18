@@ -141,8 +141,7 @@ public class Menu {
 				if (instituicao.haDisciplinas()) {
 					nome = receberTextoNaoVazio(input, "Digite o nome do Monitor:");
 					cpf = receberTextoNaoVazio(input, "Digite o cpf do Monitor:");
-					disciplina = escolherDisciplina();
-					instituicao.criarMonitor(nome, cpf, disciplina);
+					instituicao.criarMonitor(nome, cpf);
 				}
 				else {
 					System.out.println("Favor, criar alguma Disciplina!");
@@ -235,8 +234,7 @@ public class Menu {
 				if (instituicao.haDisciplinas()) {
 					nome = receberTextoNaoVazio(input, "Digite o nome do Monitor:");
 					cpf = receberTextoNaoVazio(input, "Digite o cpf do Monitor:");
-					disciplina = escolherDisciplina();
-					instituicao.criarMonitor(nome, cpf, disciplina);
+					instituicao.criarMonitor(nome, cpf);
 				}
 				else {
 					System.out.println("Favor, criar alguma Disciplina!");

@@ -100,6 +100,9 @@ public class Matricula implements Comparable<Matricula> {
 	public boolean emCurso() {
 		return estado.equals(Estado.VALIDA);
 	}
+	public boolean cancelada() {
+		return estado.equals(Estado.CANCELADA);
+	}
 
 	public boolean ehMesmaDisciplina(Disciplina disciplina) {
 		return this.disciplina.equals(disciplina);

@@ -8,31 +8,74 @@ public class AppRoteiro {
 		UERJ.criarAluno("Gabriel Henrique", "cpfVálido");
 		UERJ.criarReprovavel("LP2", "código", 2, 10);
 		
+		System.out.println("Matriculando Aluno");
 		UERJ.getAluno("cpfVálido").matricular(UERJ.getDisciplina("código"));
 		UERJ.getAluno("cpfVálido").listarMatriculas();
 		UERJ.getDisciplina("código").listarAlunos();
+		System.out.println("---------------------");
 		
+		System.out.println("Desmatriculando Aluno");
 		UERJ.getAluno("cpfVálido").desmatricular(UERJ.getDisciplina("código"));
 		UERJ.getAluno("cpfVálido").listarMatriculas();
 		UERJ.getDisciplina("código").listarAlunos();
+		System.out.println("---------------------");
 		
-		UERJ.getReprovavel("código").cadastrarAvaliacao(UERJ.getAluno("cpfVálido"), 10);
+		System.out.println("Testando sistema de avaliação");
+		UERJ.getReprovavel("código").cadastrarAvaliacao(UERJ.getAluno("cpfVálido"), 10);		// invalido pq aluno n esta matriculado
 		
 		UERJ.getAluno("cpfVálido").matricular(UERJ.getDisciplina("código"));
-		UERJ.getReprovavel("código").cadastrarAvaliacao(UERJ.getAluno("cpfVálido"), 10);
-		UERJ.getDisciplina("código").encerrar(UERJ.getAluno("cpfVálido"));
+		UERJ.getReprovavel("código").cadastrarAvaliacao(UERJ.getAluno("cpfVálido"), 10);		// valido
+		UERJ.getDisciplina("código").encerrar(UERJ.getAluno("cpfVálido"));						// invalido pq aluno n concluiu os requisitos minimos
 		UERJ.getAluno("cpfVálido").listarMatriculas();
 		UERJ.getDisciplina("código").listarAlunos();
 		
-		UERJ.getReprovavel("código").cadastrarAvaliacao(UERJ.getAluno("cpfVálido"), 10);
-		UERJ.getDisciplina("código").encerrar(UERJ.getAluno("cpfVálido"));
+		UERJ.getReprovavel("código").cadastrarAvaliacao(UERJ.getAluno("cpfVálido"), 10);		// valido
+		UERJ.getDisciplina("código").encerrar(UERJ.getAluno("cpfVálido"));						// valido
 		UERJ.getAluno("cpfVálido").listarMatriculas();
 		UERJ.getDisciplina("código").listarAlunos();
+		System.out.println("---------------------");
 		
 		
-		UERJ.criarEletiva("Plantacao de Bananeira", "PTB10", 10);
+		System.out.println("Testando exclusão de disciplinas");
+		UERJ.criarEletiva("Plantacao de Bananeira", "PTB10", 1);
 		UERJ.getAluno("cpfVálido").matricular(UERJ.getDisciplina("PTB10"));
-		UERJ.getDisciplina("PTB10").cancelarDisciplina();
+		UERJ.criarMonitor("Julio", "2020");
+		UERJ.getAluno("2020").matricular(UERJ.getDisciplina("PTB10"));
+		UERJ.getMonitor("2020").cadastrarDisciplina(UERJ.getDisciplina("PTB10"));
+		UERJ.criarTurma("Turma 2", UERJ.getDisciplina("PTB10"));
+		UERJ.excluirDisciplina(UERJ.getDisciplina("PTB10"));
+		UERJ.exibirTodasDisciplinas();
+		UERJ.exibirTurmas();
+		System.out.println(UERJ.getMonitor("2020").leciona(null));
+		UERJ.getAluno("cpfVálido").listarMatriculas();
+		System.out.println("---------------------");
+		
+		
+		
+		UERJ.criarEletiva("Plantacao de Bananeira", "PTB10", 1);
+		UERJ.criarTurma("Turma 4", UERJ.getDisciplina("código"));
+		UERJ.criarTurma("Turma 2", UERJ.getDisciplina("PTB10"));
+		UERJ.criarProfessor("Sérgio Mauro", "cadastro", UERJ.getDisciplina("código"));
+		UERJ.getMonitor("2020").cadastrarDisciplina(UERJ.getDisciplina("PTB10"));
+		System.out.println(UERJ.getMonitor("2020").leciona(UERJ.getDisciplina("PTB10")));
+		UERJ.exibirTodasDisciplinas();
+		UERJ.exibirTurmas();
+		
+		UERJ.getAluno("2020").matricular(UERJ.getDisciplina("código"));
+		
+		UERJ.getTurma("Turma 4").cadastrarAluno(UERJ.getAluno("2020"));
+		UERJ.getTurma("Turma 4").listarAlunos();
+		UERJ.getTurma("Turma 4").aula(UERJ.getProfessor("cadastro"));
+		UERJ.getTurma("Turma 4").listarAlunos();
+		
+		UERJ.getAluno("cpfVálido").matricular(UERJ.getDisciplina("PTB10"));
+		
+		UERJ.getTurma("Turma 2").cadastrarAluno(UERJ.getAluno("cpfVálido"));
+		UERJ.getTurma("Turma 2").listarAlunos();
+		UERJ.getTurma("Turma 2").aula(UERJ.getMonitor("2020"));
+		UERJ.getTurma("Turma 2").listarAlunos();
+		
+		UERJ.getDisciplina("PTB10").encerrar(UERJ.getAluno("cpfVálido"));
 		UERJ.getAluno("cpfVálido").listarMatriculas();
 	}
 	

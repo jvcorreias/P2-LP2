@@ -30,6 +30,9 @@ public class Aluno {
 			ordenarMatriculas();
 			return true;
 		}
+		if (matriculaCancelada(disciplina)) {
+			return rematricular(disciplina);
+		}
 		return false;
 	}
 	
@@ -51,6 +54,18 @@ public class Aluno {
 		for (Matricula matricula : disciplinas) {
 			if (matricula.ehMesmaDisciplina(disciplina)) {
 				return desmatricular(matricula);
+			}
+		}
+		return false;
+	}
+	
+	public boolean rematricular(Disciplina disciplina) {
+		if (matriculaCancelada(disciplina)) {
+			for (Matricula matricula : disciplinas) {
+				if (matricula.ehMesmaDisciplina(disciplina)) {
+					disciplinas.remove(matricula);
+					return matricular(disciplina);
+				}
 			}
 		}
 		return false;
@@ -85,6 +100,14 @@ public class Aluno {
 		for (Matricula matricula : disciplinas) {
 			if (matricula.ehMesmaDisciplina(disciplina)) {
 				return matricula.emCurso();
+			}
+		}
+		return false;
+	}
+	public boolean matriculaCancelada(Disciplina disciplina) {
+		for (Matricula matricula : disciplinas) {
+			if (matricula.ehMesmaDisciplina(disciplina)) {
+				return matricula.cancelada();
 			}
 		}
 		return false;

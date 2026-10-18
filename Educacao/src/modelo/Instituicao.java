@@ -44,7 +44,8 @@ public class Instituicao {
 	public boolean criarReprovavel(String nome, String codigo, int avaliacoes, int faltas) {
 		if (codigo != null && !codigo.isBlank()) {
 			Reprovavel nova = new Reprovavel(nome, codigo, avaliacoes, faltas);
-			if (nova != null && !reprovaveis.contains(nova)) {
+			ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
+			if (nova != null && !disciplinas.contains(nova)) {
 				reprovaveis.add(nova);
 				System.out.println("Disciplina Reprovável criada com sucesso!");
 				Collections.sort(reprovaveis);
@@ -58,7 +59,8 @@ public class Instituicao {
 	public boolean criarEletiva(String nome, String codigo, int presencas) {
 		if (codigo != null && !codigo.isBlank()) {
 			Eletiva nova = new Eletiva(nome, codigo, presencas);
-			if (nova != null && !eletivas.contains(nova)) {
+			ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
+			if (nova != null && !disciplinas.contains(nova)) {
 				eletivas.add(nova);
 				System.out.println("Disciplina Eletiva criada com sucesso!");
 				Collections.sort(eletivas);
@@ -71,6 +73,20 @@ public class Instituicao {
 	public boolean excluirDisciplina(Disciplina disciplina) {
 		ArrayList<Disciplina> disciplinas = obtemTodasDisciplinas();
 		if (disciplinas.contains(disciplina)) {
+			for (Lecionador lecionador : lecionadores) {
+				if (lecionador.leciona(disciplina)) {
+					lecionador.descadastrarDisciplina(disciplina);
+				}
+			}
+			int c = 0;
+			while (c < turmas.size()) {
+				if (turmas.get(c).ehDisciplina(disciplina)) {
+					excluirTurma(turmas.get(c));
+				}
+				else {
+					c++;
+				}
+			}
 			disciplina.cancelarDisciplina();
 			removeDisciplina(disciplina);
 			return true;
@@ -87,7 +103,7 @@ public class Instituicao {
 	}
 	
 	public boolean criarTurma(String identificador, Disciplina disciplina) {
-		if (identificador != null && !identificador.isBlank() && reprovaveis.contains(disciplina)) {
+		if (identificador != null && !identificador.isBlank() && obtemTodasDisciplinas().contains(disciplina)) {
 			Turma nova = new Turma(identificador, disciplina);
 			if (nova != null && !turmas.contains(nova)) {
 				turmas.add(nova);
@@ -118,9 +134,12 @@ public class Instituicao {
 		return lecionadores.remove(professor);
 	}
 	
-	public boolean criarMonitor(String nome, String cpf, Disciplina disciplina) {
+	public boolean criarMonitor(String nome, String cpf) {
 		if (cpf != null && !cpf.isBlank()) {
-			Monitor novo = new Monitor(nome, cpf, disciplina);
+			Monitor novo = new Monitor(nome, cpf);
+			System.out.println(novo);
+			System.out.println(alunos.contains(novo));
+			System.out.println(lecionadores.contains(novo));
 			if (novo != null && !alunos.contains(novo) && !lecionadores.contains(novo)) {
 				alunos.add(novo);
 				lecionadores.add(novo);
@@ -195,6 +214,14 @@ public class Instituicao {
 			System.out.println(eletivas.get(i));
 		}
 	}
+	public Eletiva getEletiva(String codigo) {
+		for (Eletiva eletiva: eletivas) {
+			if (eletiva.temMesmoCodigo(codigo)) {
+				return eletiva;
+			}
+		}
+		return null;
+	}
 	public Eletiva getEletiva(int index) {
 		if (1 <= index && index <= eletivas.size()) {
 			return eletivas.get(index-1);
@@ -247,6 +274,14 @@ public class Instituicao {
 			System.out.println(turmas.get(i));
 		}
 	}
+	public Turma getTurma(String identificador) {
+		for (Turma turma : turmas) {
+			if (turma.temIdentificador(identificador)) {
+				return turma;
+			}
+		}
+		return null;
+	}
 	public Turma getTurma(int index) {
 		if (1 <= index && index <= turmas.size()) {
 			return turmas.get(index-1);
@@ -268,8 +303,22 @@ public class Instituicao {
 		return null;
 	}
 	
-	
-	
+	public Lecionador getProfessor(String cadastro) {
+		for (Lecionador lecionador : lecionadores) {
+			if (!alunos.contains(lecionador) && lecionador.identificacao(cadastro)) {
+				return lecionador;
+			}
+		}
+		return null;
+	}
+	public Lecionador getMonitor(String cpf) {
+		for (Lecionador lecionador : lecionadores) {
+			if (alunos.contains(lecionador) && lecionador.identificacao(cpf)) {
+				return lecionador;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {

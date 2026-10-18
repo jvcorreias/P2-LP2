@@ -1,21 +1,27 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Monitor extends Aluno implements Lecionador {
-	private Disciplina disciplinaLecionada;
+	private Disciplina disciplinaLecionada = null;
 	
-	public Monitor(String nome, String cpf, Disciplina disciplinaLecionada) {
+	public Monitor(String nome, String cpf) {
 		super(nome, cpf);
-		if (disciplinaLecionada != null) {
-			this.disciplinaLecionada = disciplinaLecionada;
-		}
 	}
 
 	@Override
 	public boolean cadastrarDisciplina(Disciplina disciplina) {
 		if (disciplina != null && (concluiu(disciplina) || estaCursando(disciplina))) {
 			disciplinaLecionada = disciplina;
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public boolean descadastrarDisciplina(Disciplina disciplina) {
+		if (disciplinaLecionada != null && disciplinaLecionada.equals(disciplina)) {
+			disciplinaLecionada = null;
 			return true;
 		}
 		return false;
@@ -34,7 +40,7 @@ public class Monitor extends Aluno implements Lecionador {
 	
 	@Override
 	public boolean leciona(Disciplina disciplina) {
-		return disciplinaLecionada.equals(disciplina);
+		return Objects.equals(disciplinaLecionada, disciplina);
 	}
 	
 	public void monitorar(ArrayList<Aluno> alunos) {
@@ -44,5 +50,10 @@ public class Monitor extends Aluno implements Lecionador {
 				matricula.ganharNota(0.01f * alunosValidos);
 			}
 		}
+	}
+
+	@Override
+	public boolean identificacao(String cpf) {
+		return temMesmoCpf(cpf);
 	}
 }
